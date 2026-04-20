@@ -2,12 +2,9 @@ package com.luiz.medication_system.services;
 
 import com.luiz.medication_system.dominio.InclusionProgram;
 import com.luiz.medication_system.dominio.Patient;
-import com.luiz.medication_system.dto.InclusionProgramDTO;
-import com.luiz.medication_system.dto.PatientDTO;
 import com.luiz.medication_system.dto.PatientInsertDTO;
 import com.luiz.medication_system.repository.PatientRepository;
 import com.luiz.medication_system.services.exceptions.ObjectNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
