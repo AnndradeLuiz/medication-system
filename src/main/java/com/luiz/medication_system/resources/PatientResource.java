@@ -1,9 +1,10 @@
 package com.luiz.medication_system.resources;
 
 import com.luiz.medication_system.dominio.Patient;
-import com.luiz.medication_system.dto.InclusionProgramDTO;
-import com.luiz.medication_system.dto.PatientDTO;
-import com.luiz.medication_system.dto.PatientInsertDTO;
+import com.luiz.medication_system.dto.InclusionProgramRequestDTO;
+import com.luiz.medication_system.dto.InclusionProgramResponseDTO;
+import com.luiz.medication_system.dto.PatientResponseDTO;
+import com.luiz.medication_system.dto.PatientRequestDTO;
 import com.luiz.medication_system.services.PatientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,21 +24,21 @@ public class PatientResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<PatientDTO>> findAll() {
+    public ResponseEntity<List<PatientResponseDTO>> findAll() {
         List<Patient> list = service.findAll();
-        List<PatientDTO> dtoList = list.stream().map(PatientDTO::new).toList();
+        List<PatientResponseDTO> dtoList = list.stream().map(PatientResponseDTO::new).toList();
         return ResponseEntity.ok().body(dtoList);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<PatientDTO> findById(@PathVariable String id) {
+    public ResponseEntity<PatientResponseDTO> findById(@PathVariable String id) {
         Patient patient = service.findById(id);
-        return ResponseEntity.ok().body(new PatientDTO(patient));
+        return ResponseEntity.ok().body(new PatientResponseDTO(patient));
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody PatientInsertDTO patientInsertDTO) {
-        Patient patient = service.fromDto(patientInsertDTO);
+    public ResponseEntity<Void> insert(@RequestBody PatientRequestDTO patientRequestDTO) {
+        Patient patient = service.fromDto(patientRequestDTO);
         patient = service.insert(patient);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -54,18 +55,18 @@ public class PatientResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody PatientInsertDTO patientInsertDTO, @PathVariable String id) {
-        Patient patient = service.fromDto(patientInsertDTO);
+    public ResponseEntity<Void> update(@RequestBody PatientRequestDTO patientRequestDTO, @PathVariable String id) {
+        Patient patient = service.fromDto(patientRequestDTO);
         patient.setId(id);
         service.update(patient);
         return ResponseEntity.noContent().build();
     }
     
     @RequestMapping(value = "/{id}/programs", method = RequestMethod.GET)
-    public ResponseEntity<List<InclusionProgramDTO>> findProgram(@PathVariable String id) {
+    public ResponseEntity<List<InclusionProgramResponseDTO>> findProgram(@PathVariable String id) {
         Patient patient = service.findById(id);
-        List<InclusionProgramDTO> dtoList = patient.getPrograms().stream()
-                .map(InclusionProgramDTO::new)
+        List<InclusionProgramResponseDTO> dtoList = patient.getPrograms().stream()
+                .map(InclusionProgramResponseDTO::new)
                 .toList();
         return ResponseEntity.ok().body(dtoList);
     }

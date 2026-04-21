@@ -2,7 +2,7 @@ package com.luiz.medication_system.services;
 
 import com.luiz.medication_system.dominio.Lot;
 import com.luiz.medication_system.dominio.Medication;
-import com.luiz.medication_system.dto.MedicationInsertDTO;
+import com.luiz.medication_system.dto.MedicationRequestDTO;
 import com.luiz.medication_system.repository.MedicationRepository;
 import com.luiz.medication_system.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
@@ -44,21 +44,21 @@ public class MedicationService {
         repository.save(newMedication);
     }
 
-    public Medication fromDto(MedicationInsertDTO medicationInsertDTO) {
+    public Medication fromDto(MedicationRequestDTO medicationRequestDTO) {
         Medication medication =  new Medication(
                 null,
-                medicationInsertDTO.name(),
-                medicationInsertDTO.category(),
-                medicationInsertDTO.pharmaceuticalForm(),
-                medicationInsertDTO.unitOfMeasurement(),
-                medicationInsertDTO.activeIngredient(),
-                medicationInsertDTO.concentration(),
-                medicationInsertDTO.sigtapCode()
+                medicationRequestDTO.name(),
+                medicationRequestDTO.category(),
+                medicationRequestDTO.pharmaceuticalForm(),
+                medicationRequestDTO.unitOfMeasurement(),
+                medicationRequestDTO.activeIngredient(),
+                medicationRequestDTO.concentration(),
+                medicationRequestDTO.sigtapCode()
         );
-        if (medicationInsertDTO.lots() != null) {
+        if (medicationRequestDTO.lots() != null) {
             Instant today = Instant.now();
 
-            List<Lot> lotList = medicationInsertDTO.lots().stream()
+            List<Lot> lotList = medicationRequestDTO.lots().stream()
                     .map(l -> {
                         if (l.expirationDate().isBefore(today)) {
                             throw new IllegalArgumentException("Erro de Segurança: Não é permitido cadastrar o lote '" + l.lotCode() + "' com data de validade vencida!");
@@ -73,13 +73,27 @@ public class MedicationService {
     }
 
     private void updateData(Medication newMedication, Medication medication) {
-        newMedication.setName(medication.getName());
-        newMedication.setCategory(medication.getCategory());
-        newMedication.setPharmaceuticalForm(medication.getPharmaceuticalForm());
-        newMedication.setUnitOfMeasurement(medication.getUnitOfMeasurement());
-        newMedication.setActiveIngredient(medication.getActiveIngredient());
-        newMedication.setConcentration(medication.getConcentration());
-        newMedication.setLots(medication.getLots());
+        if (medication.getName() != null) {
+            newMedication.setName(medication.getName());
+        }
+        if (medication.getCategory() != null) {
+            newMedication.setCategory(medication.getCategory());
+        }
+        if (medication.getPharmaceuticalForm() != null) {
+            newMedication.setPharmaceuticalForm(medication.getPharmaceuticalForm());
+        }
+        if (medication.getUnitOfMeasurement() != null) {
+            newMedication.setUnitOfMeasurement(medication.getUnitOfMeasurement());
+        }
+        if (medication.getActiveIngredient() != null) {
+            newMedication.setActiveIngredient(medication.getActiveIngredient());
+        }
+        if (medication.getConcentration() != null) {
+            newMedication.setConcentration(medication.getConcentration());
+        }
+        if (medication.getLots() != null && !medication.getLots().isEmpty()) {
+            newMedication.setLots(medication.getLots());
+        }
     }
 
 }

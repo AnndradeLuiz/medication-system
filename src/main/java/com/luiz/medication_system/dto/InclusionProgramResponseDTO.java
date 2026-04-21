@@ -4,10 +4,10 @@ import com.luiz.medication_system.dominio.InclusionProgram;
 
 import java.time.Instant;
 
-public record InclusionProgramDTO(
+public record InclusionProgramResponseDTO(
         String name, Instant inclusionDate, Boolean status
 ) {
-    public InclusionProgramDTO(InclusionProgram program) {
+    public InclusionProgramResponseDTO(InclusionProgram program) {
         this(
                 program.getName(), program.getInclusionDate(), program.getStatus()
         );

@@ -1,8 +1,8 @@
 package com.luiz.medication_system.resources;
 
 import com.luiz.medication_system.dominio.Employee;
-import com.luiz.medication_system.dto.EmployeeDTO;
-import com.luiz.medication_system.dto.EmployeeInsertDTO;
+import com.luiz.medication_system.dto.EmployeeResponseDTO;
+import com.luiz.medication_system.dto.EmployeeRequestDTO;
 import com.luiz.medication_system.services.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,21 +22,21 @@ public class EmployeeResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<EmployeeDTO>> findAll() {
+    public ResponseEntity<List<EmployeeResponseDTO>> findAll() {
         List<Employee> list = service.findAll();
-        List<EmployeeDTO> dtoList = list.stream().map(EmployeeDTO::new).toList();
+        List<EmployeeResponseDTO> dtoList = list.stream().map(EmployeeResponseDTO::new).toList();
         return ResponseEntity.ok().body(dtoList);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<EmployeeDTO> findById(@PathVariable String id) {
+    public ResponseEntity<EmployeeResponseDTO> findById(@PathVariable String id) {
         Employee employee = service.findById(id);
-        return ResponseEntity.ok().body(new EmployeeDTO(employee));
+        return ResponseEntity.ok().body(new EmployeeResponseDTO(employee));
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody EmployeeInsertDTO employeeInsertDTO) {
-        Employee employee = service.fromDto(employeeInsertDTO);
+    public ResponseEntity<Void> insert(@RequestBody EmployeeRequestDTO employeeDTO) {
+        Employee employee = service.fromDto(employeeDTO);
         employee = service.insert(employee);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -53,8 +53,8 @@ public class EmployeeResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody EmployeeInsertDTO employeeInsertDTO, @PathVariable String id) {
-        Employee employee = service.fromDto(employeeInsertDTO);
+    public ResponseEntity<Void> update(@RequestBody EmployeeRequestDTO employeeDTO, @PathVariable String id) {
+        Employee employee = service.fromDto(employeeDTO);
         employee.setId(id);
         service.update(employee);
         return ResponseEntity.noContent().build();

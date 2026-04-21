@@ -1,7 +1,8 @@
 package com.luiz.medication_system.services;
 
 import com.luiz.medication_system.dominio.Employee;
-import com.luiz.medication_system.dto.EmployeeInsertDTO;
+import com.luiz.medication_system.dto.EmployeeRequestDTO;
+import com.luiz.medication_system.dto.EmployeeResponseDTO;
 import com.luiz.medication_system.repository.EmployeeRepository;
 import com.luiz.medication_system.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import java.util.Optional;
 @Service
 public class EmployeeService {
 
-    @Autowired
     private final EmployeeRepository repository;
     private final PasswordEncoder passwordEncoder;
 
@@ -51,20 +51,32 @@ public class EmployeeService {
         return passwordEncoder.encode(password);
     }
 
-    public Employee fromDto(EmployeeInsertDTO employeeInsertDTO) {
-        String password = encryptPassword(employeeInsertDTO.password());
+    public Employee fromDto(EmployeeRequestDTO employeeRequestDTO) {
+        String password = encryptPassword(employeeRequestDTO.password());
+
         return new Employee(
-                employeeInsertDTO.id(), employeeInsertDTO.name(),
-                employeeInsertDTO.registration(), password,
-                employeeInsertDTO.position(), employeeInsertDTO.status()
+                null,
+                employeeRequestDTO.name(),
+                employeeRequestDTO.registration(),
+                password,
+                employeeRequestDTO.position(),
+                employeeRequestDTO.status()
         );
     }
 
     private void updateData(Employee newEmployee, Employee employee) {
-        newEmployee.setName(employee.getName());
-        newEmployee.setRegistration(employee.getRegistration());
-        newEmployee.setPosition(employee.getPosition());
-        newEmployee.setStatus(employee.getStatus());
+        if (employee.getName() != null) {
+            newEmployee.setName(employee.getName());
+        }
+        if (employee.getRegistration() != null) {
+            newEmployee.setRegistration(employee.getRegistration());
+        }
+        if (employee.getPosition() != null) {
+            newEmployee.setPosition(employee.getPosition());
+        }
+        if (employee.getStatus() != null) {
+            newEmployee.setStatus(employee.getStatus());
+        }
     }
 
 }

@@ -21,20 +21,20 @@ public class MedicationResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<MedicationDTO>> findAll() {
+    public ResponseEntity<List<MedicationResponseDTO>> findAll() {
         List<Medication> list = service.findAll();
-        List<MedicationDTO> dtoList = list.stream().map(MedicationDTO::new).toList();
+        List<MedicationResponseDTO> dtoList = list.stream().map(MedicationResponseDTO::new).toList();
         return ResponseEntity.ok().body(dtoList);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<MedicationDTO> findById(@PathVariable String id) {
+    public ResponseEntity<MedicationResponseDTO> findById(@PathVariable String id) {
         Medication medication = service.findById(id);
-        return ResponseEntity.ok().body(new MedicationDTO(medication));
+        return ResponseEntity.ok().body(new MedicationResponseDTO(medication));
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody MedicationInsertDTO medicationDto) {
+    public ResponseEntity<Void> insert(@RequestBody MedicationRequestDTO medicationDto) {
         Medication medication = service.fromDto(medicationDto);
         medication = service.insert(medication);
         URI uri = ServletUriComponentsBuilder
@@ -52,7 +52,7 @@ public class MedicationResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody MedicationInsertDTO medicationDto, @PathVariable String id) {
+    public ResponseEntity<Void> update(@RequestBody MedicationRequestDTO medicationDto, @PathVariable String id) {
         Medication medication = service.fromDto(medicationDto);
         medication.setId(id);
         service.update(medication);
@@ -60,10 +60,10 @@ public class MedicationResource {
     }
     
     @RequestMapping(value = "/{id}/Lots", method = RequestMethod.GET)
-    public ResponseEntity<List<LotDTO>> findProgram(@PathVariable String id) {
+    public ResponseEntity<List<LotResponseDTO>> findProgram(@PathVariable String id) {
         Medication medication = service.findById(id);
-        List<LotDTO> dtoList = medication.getLots().stream()
-                .map(LotDTO::new)
+        List<LotResponseDTO> dtoList = medication.getLots().stream()
+                .map(LotResponseDTO::new)
                 .toList();
         return ResponseEntity.ok().body(dtoList);
     }

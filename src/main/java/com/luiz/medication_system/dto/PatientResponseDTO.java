@@ -5,18 +5,19 @@ import com.luiz.medication_system.dominio.Patient;
 import java.time.Instant;
 import java.util.List;
 
-public record PatientInsertDTO(
+public record PatientResponseDTO(
         String id, String name,
         String cpf, String cns,
         Instant birthDate, List<String> phones,
-        List<InclusionProgramDTO> programs
+        List<InclusionProgramResponseDTO> programs
 ) {
-    public PatientInsertDTO(Patient patient) {
+    public PatientResponseDTO(Patient patient) {
         this(
                 patient.getId(), patient.getName(),
                 patient.getCpf(), patient.getCns(),
                 patient.getBirthDate(), patient.getPhones(),
-                patient.getPrograms().stream().map(InclusionProgramDTO::new).toList()
+                patient.getPrograms() != null ?
+                        patient.getPrograms().stream().map(InclusionProgramResponseDTO::new).toList() : List.of()
         );
     }
 }

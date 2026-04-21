@@ -4,10 +4,10 @@ import com.luiz.medication_system.dominio.Lot;
 
 import java.time.Instant;
 
-public record LotDTO(
+public record LotResponseDTO(
         String lotCode, Integer quantity, Instant expirationDate
 ) {
-    public LotDTO(Lot lot) {
+    public LotResponseDTO(Lot lot) {
         this(
                 lot.getLotCode(), lot.getQuantity(), lot.getExpirationDate()
         );

@@ -2,7 +2,7 @@ package com.luiz.medication_system.services;
 
 import com.luiz.medication_system.dominio.InclusionProgram;
 import com.luiz.medication_system.dominio.Patient;
-import com.luiz.medication_system.dto.PatientInsertDTO;
+import com.luiz.medication_system.dto.PatientRequestDTO;
 import com.luiz.medication_system.repository.PatientRepository;
 import com.luiz.medication_system.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
@@ -43,8 +43,8 @@ public class PatientService {
         repository.save(newPatient);
     }
 
-    public Patient fromDto(PatientInsertDTO patientDto) {
-        Patient patient = new Patient(patientDto.id(), patientDto.name(), patientDto.cpf(), patientDto.cns(), patientDto.birthDate());
+    public Patient fromDto(PatientRequestDTO patientDto) {
+        Patient patient = new Patient(null, patientDto.name(), patientDto.cpf(), patientDto.cns(), patientDto.birthDate());
 
         if (patientDto.phones() != null) {
             patient.getPhones().addAll(patientDto.phones());
@@ -60,12 +60,24 @@ public class PatientService {
     }
 
     private void updateData(Patient newPatient, Patient patient) {
-        newPatient.setName(patient.getName());
-        newPatient.setCpf(patient.getCpf());
-        newPatient.setCns(patient.getCns());
-        newPatient.setBirthDate(patient.getBirthDate());
-        newPatient.setPhones(patient.getPhones());
-        newPatient.setPrograms(patient.getPrograms());
+        if (patient.getName() != null) {
+            newPatient.setName(patient.getName());
+        }
+        if (patient.getCpf() != null) {
+            newPatient.setCpf(patient.getCpf());
+        }
+        if (patient.getCns() != null) {
+            newPatient.setCns(patient.getCns());
+        }
+        if (patient.getBirthDate() != null) {
+            newPatient.setBirthDate(patient.getBirthDate());
+        }
+        if (patient.getPhones() != null && !patient.getPhones().isEmpty()) {
+            newPatient.setPhones(patient.getPhones());
+        }
+        if (patient.getPrograms() != null && !patient.getPrograms().isEmpty()) {
+            newPatient.setPrograms(patient.getPrograms());
+        }
     }
 
 }
