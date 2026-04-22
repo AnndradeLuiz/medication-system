@@ -10,7 +10,7 @@ public record MedicalSupplyResponseDTO(
         String name,
         String observation,
         String sigtapCode,
-        List<Lot> lots
+        List<LotResponseDTO> lots
 ) {
     public MedicalSupplyResponseDTO(MedicalSupply medicalSupply) {
         this(
@@ -18,7 +18,7 @@ public record MedicalSupplyResponseDTO(
                 medicalSupply.getName(),
                 medicalSupply.getObservation(),
                 medicalSupply.getSigtapCode(),
-                medicalSupply.getLots()
+                medicalSupply.getLots().stream().map(LotResponseDTO::new).toList()
         );
     }
 }

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class TargetPatient {
 
-    private String id;
+    private String patientId;
     private String name;
     private String cpf;
     private String cns;
@@ -12,19 +12,19 @@ public class TargetPatient {
     public TargetPatient() {
     }
 
-    public TargetPatient(String id, String name, String cpf, String cns) {
-        this.id = id;
+    public TargetPatient(String patientId, String name, String cpf, String cns) {
+        this.patientId = patientId;
         this.name = name;
         this.cpf = cpf;
         this.cns = cns;
     }
 
-    public String getId() {
-        return id;
+    public String getPatientId() {
+        return patientId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
     }
 
     public String getName() {
@@ -54,12 +54,12 @@ public class TargetPatient {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof TargetPatient that)) return false;
-        return Objects.equals(getId(), that.getId());
+        return Objects.equals(getPatientId(), that.getPatientId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return Objects.hashCode(getPatientId());
     }
 
 }

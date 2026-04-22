@@ -63,13 +63,13 @@ public class DispensationItem {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof DispensationItem that)) return false;
-        return Objects.equals(getMedicationId(), that.getMedicationId());
+        if (!(o instanceof DispensationItem item)) return false;
+        return Objects.equals(getMedicationId(), item.getMedicationId()) && Objects.equals(getLotCode(), item.getLotCode());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getMedicationId());
+        return Objects.hash(getMedicationId(), getLotCode());
     }
 
 }

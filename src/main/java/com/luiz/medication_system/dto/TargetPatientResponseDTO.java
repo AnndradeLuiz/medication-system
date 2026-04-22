@@ -10,7 +10,7 @@ public record TargetPatientResponseDTO(
 ) {
     public TargetPatientResponseDTO(TargetPatient patient) {
         this(
-                patient.getId(),
+                patient.getPatientId(),
                 patient.getName(),
                 patient.getCpf(),
                 patient.getCns()

@@ -1,11 +1,17 @@
 package com.luiz.medication_system.dominio;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MedicalSupply {
+@Document(collection = "medical-supply")
+public class MedicalSupply implements Serializable {
 
+    @Id
     private String id;
     private String name;
     private String observation;

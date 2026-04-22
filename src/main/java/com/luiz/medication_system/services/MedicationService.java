@@ -61,7 +61,9 @@ public class MedicationService {
             List<Lot> lotList = medicationRequestDTO.lots().stream()
                     .map(l -> {
                         if (l.expirationDate().isBefore(today)) {
-                            throw new IllegalArgumentException("Erro de Segurança: Não é permitido cadastrar o lote '" + l.lotCode() + "' com data de validade vencida!");
+                            throw new IllegalArgumentException("Erro de Segurança: Não é permitido cadastrar o lote '"
+                                    + l.lotCode()
+                                    + "' com data de validade vencida!");
                         }
                         return new Lot(l.lotCode(), l.quantity(), l.expirationDate());
                     })

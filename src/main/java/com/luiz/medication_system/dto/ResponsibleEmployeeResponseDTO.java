@@ -3,7 +3,7 @@ package com.luiz.medication_system.dto;
 import com.luiz.medication_system.dominio.ResponsibleEmployee;
 
 public record ResponsibleEmployeeResponseDTO(
-        String employeeId,
+        String employee,
         String name,
         String registration
 ) {

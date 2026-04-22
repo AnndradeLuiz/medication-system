@@ -3,10 +3,14 @@ package com.luiz.medication_system.dto;
 import java.util.List;
 
 public record MedicationRequestDTO(
-        String id, String name,
-        String category ,String pharmaceuticalForm,
-        String unitOfMeasurement, String activeIngredient,
-        String concentration, String sigtapCode, List<LotRequestDTO> lots
+        String name,
+        String category,
+        String pharmaceuticalForm,
+        String unitOfMeasurement,
+        String activeIngredient,
+        String concentration,
+        String sigtapCode,
+        List<LotRequestDTO> lots
 ) {
 
 }

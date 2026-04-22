@@ -5,9 +5,9 @@ import java.util.Objects;
 
 public class ThirdParties implements Serializable {
 
-    String name;
-    String document;
-    String observation;
+    private String name;
+    private String document;
+    private String observation;
 
     public ThirdParties() {
     }
