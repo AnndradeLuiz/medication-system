@@ -4,7 +4,7 @@ import com.luiz.medication_system.dominio.MedicalSupply;
 import com.luiz.medication_system.dto.LotResponseDTO;
 import com.luiz.medication_system.dto.MedicalSupplyRequestDTO;
 import com.luiz.medication_system.dto.MedicalSupplyResponseDTO;
-import com.luiz.medication_system.services.MedicalSupplyService;
+import com.luiz.medication_system.services.SupplyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -14,11 +14,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/medical-supplies")
-public class MedicalSupplyResource {
+public class SupplyResource {
 
-    private final MedicalSupplyService service;
+    private final SupplyService service;
 
-    public MedicalSupplyResource(MedicalSupplyService service) {
+    public SupplyResource(SupplyService service) {
         this.service = service;
     }
 

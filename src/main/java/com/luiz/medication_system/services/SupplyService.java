@@ -3,20 +3,21 @@ package com.luiz.medication_system.services;
 import com.luiz.medication_system.dominio.Lot;
 import com.luiz.medication_system.dominio.MedicalSupply;
 import com.luiz.medication_system.dto.MedicalSupplyRequestDTO;
-import com.luiz.medication_system.repository.MedicalSupplyRepository;
+import com.luiz.medication_system.repository.SupplyRepository;
 import com.luiz.medication_system.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MedicalSupplyService {
+public class SupplyService {
 
-    private final MedicalSupplyRepository repository;
+    private final SupplyRepository repository;
 
-    public MedicalSupplyService(MedicalSupplyRepository repository) {
+    public SupplyService(SupplyRepository repository) {
         this.repository = repository;
     }
 
@@ -52,17 +53,17 @@ public class MedicalSupplyService {
                 medicalDto.sigtapCode()
         );
         if (medicalDto.lots() != null) {
-            Instant today = Instant.now();
+            Date today = Date.from(Instant.now());
 
             List<Lot> lotList = medicalDto.lots().stream()
                     .map(l -> {
-                        if (l.expirationDate().isBefore(today)) {
+                        if (l.expirationDate().before(today)) {
                             throw new IllegalArgumentException("Erro de Segurança: Não é permitido cadastrar o lote '"
                                     + l.lotCode()
                                     + "' com data de validade vencida!"
                             );
                         }
-                        return new Lot(l.lotCode(), l.quantity(), l.expirationDate());
+                        return new Lot(l.laboratory(), l.lotCode(), l.expirationDate(), l.quantity());
                     })
                     .toList();
 

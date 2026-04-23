@@ -1,28 +1,28 @@
 package com.luiz.medication_system.dto;
 
-import com.luiz.medication_system.dominio.Dispensation;
+import com.luiz.medication_system.dominio.DispensingOfMedicines;
 
 import java.time.Instant;
 import java.util.List;
 
-public record DispensationResponseDTO(
+public record DispensingOfMedicinesResponseDTO(
         String id,
         Instant moment,
         ResponsibleEmployeeResponseDTO employee,
         TargetPatientResponseDTO targetPatient,
-        ThirdPartiesResponseDTO parties,
+        ThirdPartiesResponseDTO thirdPerson,
         List<DispensationItemResponseDTO> items
 ) {
-    public DispensationResponseDTO(Dispensation entity) {
+    public DispensingOfMedicinesResponseDTO(DispensingOfMedicines entity) {
         this(
                 entity.getId(),
                 entity.getMoment(),
                 new ResponsibleEmployeeResponseDTO(entity.getEmployee()),
                 new TargetPatientResponseDTO(entity.getTargetPatient()),
-                entity.getParties() != null ?  new ThirdPartiesResponseDTO(
-                        entity.getParties().getName(),
-                        entity.getParties().getDocument(),
-                        entity.getParties().getObservation()
+                entity.getThirdPerson() != null ?  new ThirdPartiesResponseDTO(
+                        entity.getThirdPerson().getName(),
+                        entity.getThirdPerson().getDocument(),
+                        entity.getThirdPerson().getObservation()
         ) : null,
                 entity.getItems().stream().map(DispensationItemResponseDTO::new).toList()
         );

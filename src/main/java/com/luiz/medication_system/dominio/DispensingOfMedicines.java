@@ -9,25 +9,25 @@ import java.util.List;
 import java.util.Objects;
 
 @Document(collection = "dispensation")
-public class Dispensation {
+public class DispensingOfMedicines {
 
     @Id
     private String id;
     private Instant moment;
     private ResponsibleEmployee employee;
     private TargetPatient targetPatient;
-    private ThirdParties parties;
+    private ThirdPerson thirdPerson;
     private List<DispensationItem> items = new ArrayList<>();
 
-    public Dispensation() {
+    public DispensingOfMedicines() {
     }
 
-    public Dispensation(String id, Instant moment, ResponsibleEmployee employee, TargetPatient targetPatient, ThirdParties parties) {
+    public DispensingOfMedicines(String id, Instant moment, ResponsibleEmployee employee, TargetPatient targetPatient, ThirdPerson thirdPerson) {
         this.id = id;
         this.moment = moment;
         this.employee = employee;
         this.targetPatient = targetPatient;
-        this.parties = parties;
+        this.thirdPerson = thirdPerson;
     }
 
     public String getId() {
@@ -62,12 +62,12 @@ public class Dispensation {
         this.targetPatient = targetPatient;
     }
 
-    public ThirdParties getParties() {
-        return parties;
+    public ThirdPerson getThirdPerson() {
+        return thirdPerson;
     }
 
-    public void setParties(ThirdParties parties) {
-        this.parties = parties;
+    public void setThirdPerson(ThirdPerson thirdPerson) {
+        this.thirdPerson = thirdPerson;
     }
 
     public List<DispensationItem> getItems() {
@@ -80,7 +80,7 @@ public class Dispensation {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Dispensation that)) return false;
+        if (!(o instanceof DispensingOfMedicines that)) return false;
         return Objects.equals(getId(), that.getId());
     }
 

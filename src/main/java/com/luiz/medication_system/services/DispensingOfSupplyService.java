@@ -16,9 +16,9 @@ public class DispensingOfSupplyService {
 
     private final DispensingOfSupplyRepository repository;
     private final EmployeeService employeeService;
-    private final MedicalSupplyService supplyService;
+    private final SupplyService supplyService;
 
-    public DispensingOfSupplyService(DispensingOfSupplyRepository repository, EmployeeService employeeService, MedicalSupplyService supplyService) {
+    public DispensingOfSupplyService(DispensingOfSupplyRepository repository, EmployeeService employeeService, SupplyService supplyService) {
         this.repository = repository;
         this.employeeService = employeeService;
         this.supplyService = supplyService;

@@ -4,8 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,14 +17,14 @@ public class Patient implements Serializable {
     private String name;
     private String cpf;
     private String cns;
-    private Instant birthDate;
+    private Date birthDate;
     private List<String> phones = new ArrayList<>();
     private List<InclusionProgram> programs = new ArrayList<>();
 
     public Patient() {
     }
 
-    public Patient(String id, String name, String cpf, String cns, Instant birthDate) {
+    public Patient(String id, String name, String cpf, String cns, Date birthDate) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -64,11 +64,11 @@ public class Patient implements Serializable {
         this.cns = cns;
     }
 
-    public Instant getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Instant birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 

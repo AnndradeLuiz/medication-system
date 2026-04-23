@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public interface MedicalSupplyRepository extends MongoRepository<MedicalSupply, String> {
+public interface SupplyRepository extends MongoRepository<MedicalSupply, String> {
 
 }

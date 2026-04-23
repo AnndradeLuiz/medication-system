@@ -1,22 +1,32 @@
 package com.luiz.medication_system.dominio;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Date;
 import java.util.Objects;
 
 public class Lot implements Serializable {
 
+    private String laboratory;
     private String lotCode;
+    private Date expirationDate;
     private Integer quantity;
-    private Instant expirationDate;
 
     public Lot() {
     }
 
-    public Lot(String lotCode, Integer quantity, Instant expirationDate) {
+    public Lot(String laboratory, String lotCode, Date expirationDate, Integer quantity) {
+        this.laboratory = laboratory;
         this.lotCode = lotCode;
-        this.quantity = quantity;
         this.expirationDate = expirationDate;
+        this.quantity = quantity;
+    }
+
+    public String getLaboratory() {
+        return laboratory;
+    }
+
+    public void setLaboratory(String laboratory) {
+        this.laboratory = laboratory;
     }
 
     public String getLotCode() {
@@ -27,6 +37,14 @@ public class Lot implements Serializable {
         this.lotCode = lotCode;
     }
 
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -35,13 +53,6 @@ public class Lot implements Serializable {
         this.quantity = quantity;
     }
 
-    public Instant getExpirationDate() {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(Instant expirationDate) {
-        this.expirationDate = expirationDate;
-    }
 
     @Override
     public boolean equals(Object o) {

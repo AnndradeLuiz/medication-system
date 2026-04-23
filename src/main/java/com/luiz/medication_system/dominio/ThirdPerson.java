@@ -3,16 +3,16 @@ package com.luiz.medication_system.dominio;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class ThirdParties implements Serializable {
+public class ThirdPerson implements Serializable {
 
     private String name;
     private String document;
     private String observation;
 
-    public ThirdParties() {
+    public ThirdPerson() {
     }
 
-    public ThirdParties(String name, String document, String observation) {
+    public ThirdPerson(String name, String document, String observation) {
         this.name = name;
         this.document = document;
         this.observation = observation;
@@ -44,7 +44,7 @@ public class ThirdParties implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof ThirdParties that)) return false;
+        if (!(o instanceof ThirdPerson that)) return false;
         return Objects.equals(getDocument(), that.getDocument());
     }
 

@@ -1,10 +1,8 @@
 package com.luiz.medication_system.dto;
 
-import com.luiz.medication_system.dominio.InclusionProgram;
-
-import java.time.Instant;
+import java.util.Date;
 
 public record InclusionProgramRequestDTO(
-        String name, Instant inclusionDate, Boolean status
+        String name, Date inclusionDate, Boolean status
 ) {
 }

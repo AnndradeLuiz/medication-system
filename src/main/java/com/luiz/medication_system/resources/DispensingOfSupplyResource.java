@@ -12,7 +12,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/medical-supplies")
+@RequestMapping(value = "/dispensing-supplies")
 public class DispensingOfSupplyResource {
 
     private final DispensingOfSupplyService service;

@@ -68,4 +68,10 @@ public class MedicationResource {
         return ResponseEntity.ok().body(dtoList);
     }
 
+    @RequestMapping(value = "/{id}/lots", method = RequestMethod.POST)
+    public ResponseEntity<Void> addLots(@PathVariable String id, @RequestBody List<LotRequestDTO> newLotsDto) {
+        service.addLots(id, newLotsDto);
+        return ResponseEntity.noContent().build();
+    }
+
 }

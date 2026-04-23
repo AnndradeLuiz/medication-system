@@ -1,19 +1,20 @@
 package com.luiz.medication_system.dominio;
 
 import java.io.Serializable;
-import java.time.Instant;
+
+import java.util.Date;
 import java.util.Objects;
 
 public class InclusionProgram implements Serializable {
 
     private String name;
-    private Instant inclusionDate;
+    private Date inclusionDate;
     private Boolean status;
 
     public InclusionProgram() {
     }
 
-    public InclusionProgram(String name, Instant inclusionDate, Boolean status) {
+    public InclusionProgram(String name, Date inclusionDate, Boolean status) {
         this.name = name;
         this.inclusionDate = inclusionDate;
         this.status = status;
@@ -27,11 +28,11 @@ public class InclusionProgram implements Serializable {
         this.name = name;
     }
 
-    public Instant getInclusionDate() {
+    public Date getInclusionDate() {
         return inclusionDate;
     }
 
-    public void setInclusionDate(Instant inclusionDate) {
+    public void setInclusionDate(Date inclusionDate) {
         this.inclusionDate = inclusionDate;
     }
 

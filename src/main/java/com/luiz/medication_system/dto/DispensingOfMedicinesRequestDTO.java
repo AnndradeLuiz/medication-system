@@ -2,10 +2,10 @@ package com.luiz.medication_system.dto;
 
 import java.util.List;
 
-public record DispensationRequestDTO(
+public record DispensingOfMedicinesRequestDTO(
         String employeeId,
         String patientId,
-        ThirdPartiesRequestDTO parties,
+        ThirdPartiesRequestDTO thirdPerson,
         List<DispensationItemRequestDTO> items
 ) {
 

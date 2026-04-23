@@ -1,5 +1,8 @@
 package com.luiz.medication_system.dominio;
 
+import com.luiz.medication_system.dominio.enums.AdministrationRouteEnum;
+import com.luiz.medication_system.dominio.enums.PharmaceuticalFormEnum;
+import com.luiz.medication_system.dominio.enums.ProgramCategory;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,14 +17,13 @@ public class Medication implements Serializable {
     @Id
     private String id;
     private String name;
-
-    private String category;
-
-    private String pharmaceuticalForm;
-    private String unitOfMeasurement;
-
     private String activeIngredient;
     private String concentration;
+
+    private PharmaceuticalFormEnum PharmaceuticalForm;
+    private AdministrationRouteEnum administrationRoute;
+
+    private ProgramCategory programCategory;
     private String sigtapCode;
 
     private List<Lot> lots = new ArrayList<>();
@@ -29,14 +31,14 @@ public class Medication implements Serializable {
     public Medication() {
     }
 
-    public Medication(String id, String name, String category, String pharmaceuticalForm, String unitOfMeasurement, String activeIngredient,  String concentration, String sigtapCode) {
+    public Medication(String id, String name, String activeIngredient, String concentration, PharmaceuticalFormEnum pharmaceuticalForm, AdministrationRouteEnum administrationRoute, ProgramCategory programCategory, String sigtapCode) {
         this.id = id;
         this.name = name;
-        this.category = category;
-        this.pharmaceuticalForm = pharmaceuticalForm;
-        this.unitOfMeasurement = unitOfMeasurement;
         this.activeIngredient = activeIngredient;
         this.concentration = concentration;
+        PharmaceuticalForm = pharmaceuticalForm;
+        this.administrationRoute = administrationRoute;
+        this.programCategory = programCategory;
         this.sigtapCode = sigtapCode;
     }
 
@@ -56,30 +58,6 @@ public class Medication implements Serializable {
         this.name = name;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getPharmaceuticalForm() {
-        return pharmaceuticalForm;
-    }
-
-    public void setPharmaceuticalForm(String pharmaceuticalForm) {
-        this.pharmaceuticalForm = pharmaceuticalForm;
-    }
-
-    public String getUnitOfMeasurement() {
-        return unitOfMeasurement;
-    }
-
-    public void setUnitOfMeasurement(String unitOfMeasurement) {
-        this.unitOfMeasurement = unitOfMeasurement;
-    }
-
     public String getActiveIngredient() {
         return activeIngredient;
     }
@@ -94,6 +72,30 @@ public class Medication implements Serializable {
 
     public void setConcentration(String concentration) {
         this.concentration = concentration;
+    }
+
+    public PharmaceuticalFormEnum getPharmaceuticalForm() {
+        return PharmaceuticalForm;
+    }
+
+    public void setPharmaceuticalForm(PharmaceuticalFormEnum pharmaceuticalForm) {
+        PharmaceuticalForm = pharmaceuticalForm;
+    }
+
+    public AdministrationRouteEnum getAdministrationRoute() {
+        return administrationRoute;
+    }
+
+    public void setAdministrationRoute(AdministrationRouteEnum administrationRoute) {
+        this.administrationRoute = administrationRoute;
+    }
+
+    public ProgramCategory getProgramCategory() {
+        return programCategory;
+    }
+
+    public void setProgramCategory(ProgramCategory programCategory) {
+        this.programCategory = programCategory;
     }
 
     public String getSigtapCode() {
