@@ -93,10 +93,10 @@ public class DispensingOfMedicinesService {
 
             for (Lot lot : med.getLots()) {
                 if (amountNeeded <= 0) break;
-                if (lot.getQuantity() == 0) continue;
+                if (lot.getCurrentQuantity() == 0) continue;
 
-                int amountToTakeFromThisLot = Math.min(lot.getQuantity(), amountNeeded);
-                lot.setQuantity(lot.getQuantity() - amountToTakeFromThisLot);
+                int amountToTakeFromThisLot = Math.min(lot.getCurrentQuantity(), amountNeeded);
+                lot.setCurrentQuantity(lot.getCurrentQuantity() - amountToTakeFromThisLot);
                 amountNeeded -= amountToTakeFromThisLot;
                 DispensationItem receiptItem = new DispensationItem(
                         med.getId(),
@@ -114,7 +114,6 @@ public class DispensingOfMedicinesService {
         return dispensingOfMedicines;
     }
 
-    // Acredito que está função será removida, pois não me faz sentido dar update no registro das saídas
     private void updateData(DispensingOfMedicines newEntity, DispensingOfMedicines entity) {
 
     }

@@ -17,7 +17,7 @@ public record MedicationRequestDTO(
         ProgramCategory programCategory,
         String sigtapCode,
 
-        List<LotResponseDTO> lots
+        List<LotRequestDTO> lots
 ) {
 
 }

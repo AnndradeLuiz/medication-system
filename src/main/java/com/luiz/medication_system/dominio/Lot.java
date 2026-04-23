@@ -9,16 +9,18 @@ public class Lot implements Serializable {
     private String laboratory;
     private String lotCode;
     private Date expirationDate;
-    private Integer quantity;
+    private Integer initialQuantity;
+    private Integer currentQuantity;
 
     public Lot() {
     }
 
-    public Lot(String laboratory, String lotCode, Date expirationDate, Integer quantity) {
+    public Lot(String laboratory, String lotCode, Date expirationDate, Integer receivedQuantity) {
         this.laboratory = laboratory;
         this.lotCode = lotCode;
         this.expirationDate = expirationDate;
-        this.quantity = quantity;
+        this.initialQuantity = receivedQuantity;
+        this.currentQuantity = receivedQuantity;
     }
 
     public String getLaboratory() {
@@ -45,14 +47,21 @@ public class Lot implements Serializable {
         this.expirationDate = expirationDate;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getInitialQuantity() {
+        return initialQuantity;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setInitialQuantity(Integer initialQuantity) {
+        this.initialQuantity = initialQuantity;
     }
 
+    public Integer getCurrentQuantity() {
+        return currentQuantity;
+    }
+
+    public void setCurrentQuantity(Integer currentQuantity) {
+        this.currentQuantity = currentQuantity;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -69,10 +69,8 @@ public class MedicalSupply implements Serializable {
     }
 
     public Integer getTotalStock() {
-        if (lots == null || lots.isEmpty()) {
-            return 0;
-        }
-        return lots.stream().mapToInt(Lot::getQuantity).sum();
+        if (lots == null || lots.isEmpty()) return 0;
+        return lots.stream().mapToInt(Lot::getCurrentQuantity).sum();
     }
 
     @Override

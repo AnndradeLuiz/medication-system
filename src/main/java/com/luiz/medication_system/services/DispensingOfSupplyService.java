@@ -74,10 +74,10 @@ public class DispensingOfSupplyService {
 
             for (Lot lot : medicalSupply.getLots()) {
                 if (amountNeeded <= 0) break;
-                if (lot.getQuantity() <= 0) continue;
+                if (lot.getCurrentQuantity() <= 0) continue;
 
-                int amountToTakeFromThisLot = Math.min(lot.getQuantity(), amountNeeded);
-                lot.setQuantity(lot.getQuantity() - amountToTakeFromThisLot);
+                int amountToTakeFromThisLot = Math.min(lot.getCurrentQuantity(), amountNeeded);
+                lot.setCurrentQuantity(lot.getCurrentQuantity() - amountToTakeFromThisLot);
                 amountNeeded -= amountToTakeFromThisLot;
                 MedicalSupplyItem receiptItem = new MedicalSupplyItem(
                         medicalSupply.getId(),
