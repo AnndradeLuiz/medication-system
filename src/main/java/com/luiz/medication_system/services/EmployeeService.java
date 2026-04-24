@@ -57,6 +57,7 @@ public class EmployeeService {
         return new Employee(
                 null,
                 employeeRequestDTO.name(),
+                employeeRequestDTO.cpf(),
                 employeeRequestDTO.registration(),
                 password,
                 employeeRequestDTO.position(),
@@ -67,6 +68,9 @@ public class EmployeeService {
     private void updateData(Employee newEmployee, Employee employee) {
         if (employee.getName() != null) {
             newEmployee.setName(employee.getName());
+        }
+        if (employee.getCpf() != null) {
+            newEmployee.setCpf(employee.getCpf());
         }
         if (employee.getRegistration() != null) {
             newEmployee.setRegistration(employee.getRegistration());

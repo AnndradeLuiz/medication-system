@@ -24,7 +24,7 @@ public record DispensingOfMedicinesResponseDTO(
                         entity.getThirdPerson().getDocument(),
                         entity.getThirdPerson().getObservation()
         ) : null,
-                entity.getItems().stream().map(DispensationItemResponseDTO::new).toList()
+                entity.getMedications().stream().map(DispensationItemResponseDTO::new).toList()
         );
     }
 }

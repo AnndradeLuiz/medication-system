@@ -1,7 +1,7 @@
 package com.luiz.medication_system.dominio.enums;
 
-public enum ProgramCategory {
-    HIEPERDIA,
+public enum ProgramCategoryEnum {
+    HIPERDIA,
     DIABETICOS,
     HIPERTENSAO,
     FARMACIA_BASICA,

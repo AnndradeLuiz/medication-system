@@ -3,7 +3,7 @@ package com.luiz.medication_system.dto;
 import com.luiz.medication_system.dominio.Medication;
 import com.luiz.medication_system.dominio.enums.AdministrationRouteEnum;
 import com.luiz.medication_system.dominio.enums.PharmaceuticalFormEnum;
-import com.luiz.medication_system.dominio.enums.ProgramCategory;
+import com.luiz.medication_system.dominio.enums.ProgramCategoryEnum;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public record MedicationResponseDTO(
         PharmaceuticalFormEnum pharmaceuticalForm,
         AdministrationRouteEnum administrationRoute,
 
-        ProgramCategory programCategory,
+        ProgramCategoryEnum programCategoryEnum,
         String sigtapCode,
 
         Integer totalStock,

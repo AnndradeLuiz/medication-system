@@ -1,30 +1,31 @@
 package com.luiz.medication_system.dominio;
 
+import com.luiz.medication_system.dominio.enums.ProgramCategoryEnum;
+
 import java.io.Serializable;
 
 import java.util.Date;
-import java.util.Objects;
 
 public class InclusionProgram implements Serializable {
 
-    private String name;
+    private ProgramCategoryEnum name;
     private Date inclusionDate;
     private Boolean status;
 
     public InclusionProgram() {
     }
 
-    public InclusionProgram(String name, Date inclusionDate, Boolean status) {
+    public InclusionProgram(ProgramCategoryEnum name, Date inclusionDate, Boolean status) {
         this.name = name;
         this.inclusionDate = inclusionDate;
         this.status = status;
     }
 
-    public String getName() {
+    public ProgramCategoryEnum getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(ProgramCategoryEnum name) {
         this.name = name;
     }
 
@@ -42,17 +43,6 @@ public class InclusionProgram implements Serializable {
 
     public void setStatus(Boolean status) {
         this.status = status;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof InclusionProgram that)) return false;
-        return Objects.equals(getName(), that.getName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getName());
     }
 
 }

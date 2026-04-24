@@ -1,29 +1,29 @@
 package com.luiz.medication_system.dominio;
 
 import com.luiz.medication_system.dominio.enums.PharmaceuticalFormEnum;
-import com.luiz.medication_system.dominio.enums.ProgramCategory;
+import com.luiz.medication_system.dominio.enums.ProgramCategoryEnum;
 
 import java.util.Objects;
 
-public class DispensationItem {
+public class MedicationItem {
 
     private String medicationId;
     private String medicationName;
     private String concentration;
     private PharmaceuticalFormEnum PharmaceuticalForm;
-    private ProgramCategory programCategory;
+    private ProgramCategoryEnum programCategoryEnum;
     private String lotCode;
     private Integer quantity;
 
-    public DispensationItem() {
+    public MedicationItem() {
     }
 
-    public DispensationItem(String medicationId, String medicationName, String concentration, PharmaceuticalFormEnum pharmaceuticalForm, ProgramCategory programCategory, String lotCode, Integer quantity) {
+    public MedicationItem(String medicationId, String medicationName, String concentration, PharmaceuticalFormEnum pharmaceuticalForm, ProgramCategoryEnum programCategoryEnum, String lotCode, Integer quantity) {
         this.medicationId = medicationId;
         this.medicationName = medicationName;
         this.concentration = concentration;
         PharmaceuticalForm = pharmaceuticalForm;
-        this.programCategory = programCategory;
+        this.programCategoryEnum = programCategoryEnum;
         this.lotCode = lotCode;
         this.quantity = quantity;
     }
@@ -60,12 +60,12 @@ public class DispensationItem {
         PharmaceuticalForm = pharmaceuticalForm;
     }
 
-    public ProgramCategory getProgramCategory() {
-        return programCategory;
+    public ProgramCategoryEnum getProgramCategory() {
+        return programCategoryEnum;
     }
 
-    public void setProgramCategory(ProgramCategory programCategory) {
-        this.programCategory = programCategory;
+    public void setProgramCategory(ProgramCategoryEnum programCategoryEnum) {
+        this.programCategoryEnum = programCategoryEnum;
     }
 
     public String getLotCode() {
@@ -86,7 +86,7 @@ public class DispensationItem {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof DispensationItem item)) return false;
+        if (!(o instanceof MedicationItem item)) return false;
         return Objects.equals(getMedicationId(), item.getMedicationId()) && Objects.equals(getLotCode(), item.getLotCode());
     }
 

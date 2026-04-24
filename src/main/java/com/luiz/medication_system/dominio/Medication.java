@@ -2,7 +2,7 @@ package com.luiz.medication_system.dominio;
 
 import com.luiz.medication_system.dominio.enums.AdministrationRouteEnum;
 import com.luiz.medication_system.dominio.enums.PharmaceuticalFormEnum;
-import com.luiz.medication_system.dominio.enums.ProgramCategory;
+import com.luiz.medication_system.dominio.enums.ProgramCategoryEnum;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,7 +23,7 @@ public class Medication implements Serializable {
     private PharmaceuticalFormEnum PharmaceuticalForm;
     private AdministrationRouteEnum administrationRoute;
 
-    private ProgramCategory programCategory;
+    private ProgramCategoryEnum programCategoryEnum;
     private String sigtapCode;
 
     private List<Lot> lots = new ArrayList<>();
@@ -31,14 +31,14 @@ public class Medication implements Serializable {
     public Medication() {
     }
 
-    public Medication(String id, String name, String activeIngredient, String concentration, PharmaceuticalFormEnum pharmaceuticalForm, AdministrationRouteEnum administrationRoute, ProgramCategory programCategory, String sigtapCode) {
+    public Medication(String id, String name, String activeIngredient, String concentration, PharmaceuticalFormEnum pharmaceuticalForm, AdministrationRouteEnum administrationRoute, ProgramCategoryEnum programCategoryEnum, String sigtapCode) {
         this.id = id;
         this.name = name;
         this.activeIngredient = activeIngredient;
         this.concentration = concentration;
         PharmaceuticalForm = pharmaceuticalForm;
         this.administrationRoute = administrationRoute;
-        this.programCategory = programCategory;
+        this.programCategoryEnum = programCategoryEnum;
         this.sigtapCode = sigtapCode;
     }
 
@@ -90,12 +90,12 @@ public class Medication implements Serializable {
         this.administrationRoute = administrationRoute;
     }
 
-    public ProgramCategory getProgramCategory() {
-        return programCategory;
+    public ProgramCategoryEnum getProgramCategory() {
+        return programCategoryEnum;
     }
 
-    public void setProgramCategory(ProgramCategory programCategory) {
-        this.programCategory = programCategory;
+    public void setProgramCategory(ProgramCategoryEnum programCategoryEnum) {
+        this.programCategoryEnum = programCategoryEnum;
     }
 
     public String getSigtapCode() {

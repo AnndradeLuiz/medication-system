@@ -98,7 +98,7 @@ public class DispensingOfMedicinesService {
                 int amountToTakeFromThisLot = Math.min(lot.getCurrentQuantity(), amountNeeded);
                 lot.setCurrentQuantity(lot.getCurrentQuantity() - amountToTakeFromThisLot);
                 amountNeeded -= amountToTakeFromThisLot;
-                DispensationItem receiptItem = new DispensationItem(
+                MedicationItem receiptItem = new MedicationItem(
                         med.getId(),
                         med.getName(),
                         med.getConcentration(),
@@ -107,7 +107,7 @@ public class DispensingOfMedicinesService {
                         lot.getLotCode(),
                         amountToTakeFromThisLot
                 );
-                dispensingOfMedicines.getItems().add(receiptItem);
+                dispensingOfMedicines.getMedications().add(receiptItem);
             }
             medicationService.update(med);
         }

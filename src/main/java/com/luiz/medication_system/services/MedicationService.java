@@ -63,7 +63,7 @@ public class MedicationService {
                 medicationRequestDTO.concentration(),
                 medicationRequestDTO.pharmaceuticalForm(),
                 medicationRequestDTO.administrationRoute(),
-                medicationRequestDTO.programCategory(),
+                medicationRequestDTO.programCategoryEnum(),
                 medicationRequestDTO.sigtapCode()
         );
         if (medicationRequestDTO.lots() != null) {

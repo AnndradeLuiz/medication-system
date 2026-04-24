@@ -6,6 +6,7 @@ import com.luiz.medication_system.dto.InclusionProgramResponseDTO;
 import com.luiz.medication_system.dto.PatientResponseDTO;
 import com.luiz.medication_system.dto.PatientRequestDTO;
 import com.luiz.medication_system.services.PatientService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -37,7 +38,7 @@ public class PatientResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody PatientRequestDTO patientRequestDTO) {
+    public ResponseEntity<Void> insert(@Valid @RequestBody PatientRequestDTO patientRequestDTO) {
         Patient patient = service.fromDto(patientRequestDTO);
         patient = service.insert(patient);
         URI uri = ServletUriComponentsBuilder
@@ -55,7 +56,7 @@ public class PatientResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody PatientRequestDTO patientRequestDTO, @PathVariable String id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody PatientRequestDTO patientRequestDTO, @PathVariable String id) {
         Patient patient = service.fromDto(patientRequestDTO);
         patient.setId(id);
         service.update(patient);

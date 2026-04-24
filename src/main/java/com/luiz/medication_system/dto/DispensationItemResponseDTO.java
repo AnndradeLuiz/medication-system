@@ -1,19 +1,19 @@
 package com.luiz.medication_system.dto;
 
-import com.luiz.medication_system.dominio.DispensationItem;
+import com.luiz.medication_system.dominio.MedicationItem;
 import com.luiz.medication_system.dominio.enums.PharmaceuticalFormEnum;
-import com.luiz.medication_system.dominio.enums.ProgramCategory;
+import com.luiz.medication_system.dominio.enums.ProgramCategoryEnum;
 
 public record DispensationItemResponseDTO(
         String medicationId,
         String medicationName,
         String concentration,
         PharmaceuticalFormEnum PharmaceuticalForm,
-        ProgramCategory programCategory,
+        ProgramCategoryEnum programCategoryEnum,
         String lotCode,
         Integer quantity
 ) {
-    public DispensationItemResponseDTO(DispensationItem entity) {
+    public DispensationItemResponseDTO(MedicationItem entity) {
         this(
                 entity.getMedicationId(),
                 entity.getMedicationName(),

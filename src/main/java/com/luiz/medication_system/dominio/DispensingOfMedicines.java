@@ -17,7 +17,7 @@ public class DispensingOfMedicines {
     private ResponsibleEmployee employee;
     private TargetPatient targetPatient;
     private ThirdPerson thirdPerson;
-    private List<DispensationItem> items = new ArrayList<>();
+    private List<MedicationItem> medications = new ArrayList<>();
 
     public DispensingOfMedicines() {
     }
@@ -70,12 +70,12 @@ public class DispensingOfMedicines {
         this.thirdPerson = thirdPerson;
     }
 
-    public List<DispensationItem> getItems() {
-        return items;
+    public List<MedicationItem> getMedications() {
+        return medications;
     }
 
-    public void setItems(List<DispensationItem> items) {
-        this.items = items;
+    public void setMedications(List<MedicationItem> medications) {
+        this.medications = medications;
     }
 
     @Override

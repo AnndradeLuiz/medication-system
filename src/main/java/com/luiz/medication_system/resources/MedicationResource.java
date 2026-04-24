@@ -3,6 +3,7 @@ package com.luiz.medication_system.resources;
 import com.luiz.medication_system.dominio.Medication;
 import com.luiz.medication_system.dto.*;
 import com.luiz.medication_system.services.MedicationService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -34,7 +35,7 @@ public class MedicationResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody MedicationRequestDTO medicationDto) {
+    public ResponseEntity<Void> insert(@Valid @RequestBody MedicationRequestDTO medicationDto) {
         Medication medication = service.fromDto(medicationDto);
         medication = service.insert(medication);
         URI uri = ServletUriComponentsBuilder
@@ -52,7 +53,7 @@ public class MedicationResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody MedicationRequestDTO medicationDto, @PathVariable String id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody MedicationRequestDTO medicationDto, @PathVariable String id) {
         Medication medication = service.fromDto(medicationDto);
         medication.setId(id);
         service.update(medication);

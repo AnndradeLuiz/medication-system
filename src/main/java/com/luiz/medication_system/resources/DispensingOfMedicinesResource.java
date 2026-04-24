@@ -66,7 +66,7 @@ public class DispensingOfMedicinesResource {
     @RequestMapping(value = "/{id}/items", method = RequestMethod.GET)
     public ResponseEntity<List<DispensationItemResponseDTO>> findItems(@PathVariable String id) {
         DispensingOfMedicines item = service.findById(id);
-        List<DispensationItemResponseDTO> dtoList = item.getItems().stream()
+        List<DispensationItemResponseDTO> dtoList = item.getMedications().stream()
                 .map(DispensationItemResponseDTO::new)
                 .toList();
         return ResponseEntity.ok().body(dtoList);
