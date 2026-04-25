@@ -25,9 +25,13 @@ public class PatientResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<PatientResponseDTO>> findAll() {
-        List<Patient> list = service.findAll();
+    public ResponseEntity<List<PatientResponseDTO>> findAll(
+            @RequestParam(value = "query", defaultValue = "") String query,
+            @RequestParam(value = "status", defaultValue = "ativos") String status) {
+
+        List<Patient> list = service.search(query, status);
         List<PatientResponseDTO> dtoList = list.stream().map(PatientResponseDTO::new).toList();
+
         return ResponseEntity.ok().body(dtoList);
     }
 
@@ -49,9 +53,9 @@ public class PatientResource {
         return ResponseEntity.created(uri).build();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteById(@PathVariable String id) {
-        service.deleteById(id);
+    @RequestMapping(value = "/{id}/status", method = RequestMethod.PATCH)
+    public ResponseEntity<Void> toggleStatus(@PathVariable String id) {
+        service.toggleStatus(id);
         return ResponseEntity.noContent().build();
     }
 

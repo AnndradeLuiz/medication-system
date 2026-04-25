@@ -3,6 +3,7 @@ package com.luiz.medication_system.dto;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,8 @@ public record PatientRequestDTO(
         @CPF(message = "Erro de validação: O CPF informado não é válido.")
         String cpf,
         String cns,
-        Date birthDate,
+        LocalDate birthDate,
+        Boolean external,
         List<String> phones,
         List<InclusionProgramRequestDTO> programs
 ) {

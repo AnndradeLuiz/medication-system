@@ -2,7 +2,7 @@ package com.luiz.medication_system.dominio.enums;
 
 public enum ProgramCategoryEnum {
     HIPERDIA,
-    DIABETICOS,
+    DIABETICO,
     HIPERTENSAO,
     FARMACIA_BASICA,
     SAUDE_DA_MULHER,

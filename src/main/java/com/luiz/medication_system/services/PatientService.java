@@ -19,22 +19,38 @@ public class PatientService {
         this.repository = repository;
     }
 
+    public List<Patient> findAllStatus() {
+        return repository.findByStatusTrue();
+    }
+
+    public List<Patient> search(String keyword, String status) {
+        boolean hasKeyword = keyword != null && !keyword.trim().isEmpty();
+
+        if ("todos".equalsIgnoreCase(status)) {
+            return hasKeyword ? repository.searchAllByKeyword(keyword) : repository.findAll();
+        }
+
+        else if ("inativos".equalsIgnoreCase(status)) {
+            return hasKeyword ? repository.searchInactiveByKeyword(keyword) : repository.findByStatusFalse();
+        }
+
+        else {
+            return hasKeyword ? repository.searchActiveByKeyword(keyword) : repository.findByStatusTrue();
+        }
+    }
+
     public List<Patient> findAll() {
         return repository.findAll();
     }
 
     public Patient findById(String id) {
         Optional<Patient> patient = repository.findById(id);
-        return patient.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+        return patient.orElseThrow(() -> new ObjectNotFoundException("Paciente não encontrado."));
     }
 
     public Patient insert(Patient patient) {
+        patient.setStatus(true);
         return repository.insert(patient);
-    }
-
-    public void deleteById(String id) {
-        findById(id);
-        repository.deleteById(id);
     }
 
     public void update(Patient patient) {
@@ -43,8 +59,14 @@ public class PatientService {
         repository.save(newPatient);
     }
 
+    public void toggleStatus(String id) {
+        Patient patient = findById(id);
+        patient.setStatus(!patient.getStatus());
+        repository.save(patient);
+    }
+
     public Patient fromDto(PatientRequestDTO patientDto) {
-        Patient patient = new Patient(null, patientDto.name(), patientDto.cpf(), patientDto.cns(), patientDto.birthDate());
+        Patient patient = new Patient(null, patientDto.name(), patientDto.cpf(), patientDto.cns(), patientDto.birthDate(), null, patientDto.external());
 
         if (patientDto.phones() != null) {
             patient.getPhones().addAll(patientDto.phones());
@@ -71,6 +93,9 @@ public class PatientService {
         }
         if (patient.getBirthDate() != null) {
             newPatient.setBirthDate(patient.getBirthDate());
+        }
+        if (patient.getExternal() != null) {
+            newPatient.setExternal(patient.getExternal());
         }
         if (patient.getPhones() != null && !patient.getPhones().isEmpty()) {
             newPatient.setPhones(patient.getPhones());

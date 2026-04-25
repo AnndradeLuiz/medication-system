@@ -2,10 +2,8 @@ package com.luiz.medication_system.services;
 
 import com.luiz.medication_system.dominio.Employee;
 import com.luiz.medication_system.dto.EmployeeRequestDTO;
-import com.luiz.medication_system.dto.EmployeeResponseDTO;
 import com.luiz.medication_system.repository.EmployeeRepository;
 import com.luiz.medication_system.services.exceptions.ObjectNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
