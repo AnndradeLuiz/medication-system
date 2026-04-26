@@ -60,13 +60,16 @@ public class PatientService {
     }
 
     public void toggleStatus(String id) {
-        Patient patient = findById(id);
+        Patient patient = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+
         patient.setStatus(!patient.getStatus());
+
         repository.save(patient);
     }
 
     public Patient fromDto(PatientRequestDTO patientDto) {
-        Patient patient = new Patient(null, patientDto.name(), patientDto.cpf(), patientDto.cns(), patientDto.birthDate(), null, patientDto.external());
+        Patient patient = new Patient(null, patientDto.name(), patientDto.cpf(), patientDto.cns(), patientDto.birthDate(), patientDto.status(), patientDto.external());
 
         if (patientDto.phones() != null) {
             patient.getPhones().addAll(patientDto.phones());
@@ -93,6 +96,9 @@ public class PatientService {
         }
         if (patient.getBirthDate() != null) {
             newPatient.setBirthDate(patient.getBirthDate());
+        }
+        if (patient.getStatus() != null) {
+            newPatient.setStatus(patient.getStatus());
         }
         if (patient.getExternal() != null) {
             newPatient.setExternal(patient.getExternal());

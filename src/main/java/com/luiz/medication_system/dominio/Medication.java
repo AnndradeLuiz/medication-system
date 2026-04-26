@@ -118,7 +118,9 @@ public class Medication implements Serializable {
         if (this.lots == null || this.lots.isEmpty()) {
             return 0;
         }
+
         return this.lots.stream()
+                .filter(lot -> lot.getCurrentQuantity() != null)
                 .mapToInt(Lot::getCurrentQuantity)
                 .sum();
     }

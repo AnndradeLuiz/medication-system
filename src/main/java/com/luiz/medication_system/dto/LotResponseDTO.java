@@ -2,12 +2,13 @@ package com.luiz.medication_system.dto;
 
 import com.luiz.medication_system.dominio.Lot;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public record LotResponseDTO(
         String laboratory,
         String lotCode,
-        Date expirationDate,
+        LocalDate expirationDate,
         Integer initialQuantity,
         Integer currentQuantity
 ) {

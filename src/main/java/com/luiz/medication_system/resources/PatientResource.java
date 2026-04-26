@@ -53,7 +53,7 @@ public class PatientResource {
         return ResponseEntity.created(uri).build();
     }
 
-    @RequestMapping(value = "/{id}/status", method = RequestMethod.PATCH)
+    @PatchMapping(value = "/{id}/status")
     public ResponseEntity<Void> toggleStatus(@PathVariable String id) {
         service.toggleStatus(id);
         return ResponseEntity.noContent().build();

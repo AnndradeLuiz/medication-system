@@ -8,8 +8,7 @@ import com.luiz.medication_system.repository.MedicationRepository;
 import com.luiz.medication_system.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,11 +66,11 @@ public class MedicationService {
                 medicationRequestDTO.sigtapCode()
         );
         if (medicationRequestDTO.lots() != null) {
-            Date today = Date.from(Instant.now());
+            LocalDate today = LocalDate.now();
 
             List<Lot> lotList = medicationRequestDTO.lots().stream()
                     .map(l -> {
-                        if (l.expirationDate().before(today)) {
+                        if (l.expirationDate().isBefore(today)) {
                             throw new IllegalArgumentException("Erro de Segurança: Não é permitido cadastrar o lote '"
                                     + l.lotCode()
                                     + "' com data de validade vencida!");

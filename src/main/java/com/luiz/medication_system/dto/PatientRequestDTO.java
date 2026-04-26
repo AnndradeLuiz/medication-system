@@ -14,6 +14,7 @@ public record PatientRequestDTO(
         String cpf,
         String cns,
         LocalDate birthDate,
+        Boolean status,
         Boolean external,
         List<String> phones,
         List<InclusionProgramRequestDTO> programs
