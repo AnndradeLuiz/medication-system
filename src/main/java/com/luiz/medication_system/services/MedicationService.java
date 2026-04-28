@@ -48,7 +48,7 @@ public class MedicationService {
     public void addLots(String medicationId, List<LotRequestDTO> newLotsDto) {
         Medication medication = findById(medicationId);
         List<Lot> lotList = newLotsDto.stream()
-                .map(dto -> new Lot(dto.laboratory(), dto.lotCode(), dto.expirationDate(), dto.quantity()))
+                .map(dto -> new Lot(dto.lotCode(), dto.expirationDate(), dto.quantity()))
                 .toList();
         medication.getLots().addAll(lotList);
         repository.save(medication);
@@ -62,8 +62,7 @@ public class MedicationService {
                 medicationRequestDTO.concentration(),
                 medicationRequestDTO.pharmaceuticalForm(),
                 medicationRequestDTO.administrationRoute(),
-                medicationRequestDTO.programCategoryEnum(),
-                medicationRequestDTO.sigtapCode()
+                medicationRequestDTO.programCategoryEnum()
         );
         if (medicationRequestDTO.lots() != null) {
             LocalDate today = LocalDate.now();
@@ -75,7 +74,7 @@ public class MedicationService {
                                     + l.lotCode()
                                     + "' com data de validade vencida!");
                         }
-                        return new Lot(l.laboratory(), l.lotCode(), l.expirationDate(), l.quantity());
+                        return new Lot(l.lotCode(), l.expirationDate(), l.quantity());
                     })
                     .toList();
 
@@ -85,9 +84,6 @@ public class MedicationService {
     }
 
     private void updateData(Medication newMedication, Medication medication) {
-        if (medication.getName() != null) {
-            newMedication.setName(medication.getName());
-        }
         if (medication.getActiveIngredient() != null) {
             newMedication.setActiveIngredient(medication.getActiveIngredient());
         }
@@ -102,9 +98,6 @@ public class MedicationService {
         }
         if (medication.getProgramCategory() != null) {
             newMedication.setProgramCategory(medication.getProgramCategory());
-        }
-        if (medication.getSigtapCode() != null) {
-            newMedication.setSigtapCode(medication.getSigtapCode());
         }
         if (medication.getLots() != null && !medication.getLots().isEmpty()) {
             newMedication.setLots(medication.getLots());

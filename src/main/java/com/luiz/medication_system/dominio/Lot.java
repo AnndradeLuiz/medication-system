@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public class Lot implements Serializable {
 
-    private String laboratory;
     private String lotCode;
     private LocalDate expirationDate;
     private Integer initialQuantity;
@@ -15,20 +14,11 @@ public class Lot implements Serializable {
     public Lot() {
     }
 
-    public Lot(String laboratory, String lotCode, LocalDate expirationDate, Integer receivedQuantity) {
-        this.laboratory = laboratory;
+    public Lot(String lotCode, LocalDate expirationDate, Integer receivedQuantity) {
         this.lotCode = lotCode;
         this.expirationDate = expirationDate;
         this.initialQuantity = receivedQuantity;
         this.currentQuantity = receivedQuantity;
-    }
-
-    public String getLaboratory() {
-        return laboratory;
-    }
-
-    public void setLaboratory(String laboratory) {
-        this.laboratory = laboratory;
     }
 
     public String getLotCode() {

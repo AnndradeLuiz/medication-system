@@ -15,7 +15,6 @@ public record MedicationRequestDTO(
         AdministrationRouteEnum administrationRoute,
 
         ProgramCategoryEnum programCategoryEnum,
-        String sigtapCode,
 
         List<LotRequestDTO> lots
 ) {

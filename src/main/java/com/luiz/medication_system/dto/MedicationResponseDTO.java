@@ -17,7 +17,6 @@ public record MedicationResponseDTO(
         AdministrationRouteEnum administrationRoute,
 
         ProgramCategoryEnum programCategoryEnum,
-        String sigtapCode,
 
         Integer totalStock,
         List<LotResponseDTO> lots
@@ -27,8 +26,7 @@ public record MedicationResponseDTO(
                 medication.getId(), medication.getName(), medication.getActiveIngredient(),
                 medication.getConcentration(), medication.getPharmaceuticalForm(),
                 medication.getAdministrationRoute(), medication.getProgramCategory(),
-                medication.getSigtapCode(), medication.getTotalStock(),
-                medication.getLots().stream().map(LotResponseDTO::new).toList()
+                medication.getTotalStock(), medication.getLots().stream().map(LotResponseDTO::new).toList()
         );
     }
 }

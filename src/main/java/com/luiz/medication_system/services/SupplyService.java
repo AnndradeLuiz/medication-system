@@ -2,7 +2,9 @@ package com.luiz.medication_system.services;
 
 import com.luiz.medication_system.dominio.Lot;
 import com.luiz.medication_system.dominio.MedicalSupply;
+import com.luiz.medication_system.dto.LotRequestDTO;
 import com.luiz.medication_system.dto.MedicalSupplyRequestDTO;
+import com.luiz.medication_system.dto.MedicalSupplyResponseDTO;
 import com.luiz.medication_system.repository.SupplyRepository;
 import com.luiz.medication_system.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
@@ -46,12 +48,27 @@ public class SupplyService {
         repository.save(newMedicalSupply);
     }
 
+    public void addLots(String id, List<LotRequestDTO> lotsDto) {
+        // 1. Busca o insumo pelo ID
+        MedicalSupply supply = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Insumo não encontrado. ID: " + id));
+        for (LotRequestDTO dto : lotsDto) {
+            Lot newLot = new Lot();
+            newLot.setLotCode(dto.lotCode());
+            newLot.setExpirationDate(dto.expirationDate());
+            newLot.setInitialQuantity(dto.quantity());
+            newLot.setCurrentQuantity(dto.quantity());
+
+            supply.getLots().add(newLot);
+        }
+        repository.save(supply);
+    }
+
     public MedicalSupply fromDto(MedicalSupplyRequestDTO medicalDto) {
         MedicalSupply medicalSupply =  new MedicalSupply(
                 null,
                 medicalDto.name(),
-                medicalDto.observation(),
-                medicalDto.sigtapCode()
+                medicalDto.observation()
         );
         if (medicalDto.lots() != null) {
             LocalDate today = LocalDate.now();
@@ -64,7 +81,7 @@ public class SupplyService {
                                     + "' com data de validade vencida!"
                             );
                         }
-                        return new Lot(l.laboratory(), l.lotCode(), l.expirationDate(), l.quantity());
+                        return new Lot(l.lotCode(), l.expirationDate(), l.quantity());
                     })
                     .toList();
 
@@ -79,9 +96,6 @@ public class SupplyService {
         }
         if (medicalSupply.getObservation() != null) {
             newMedication.setObservation(medicalSupply.getObservation());
-        }
-        if (medicalSupply.getSigtapCode() != null) {
-            newMedication.setSigtapCode(medicalSupply.getSigtapCode());
         }
         if (medicalSupply.getLots() != null && !medicalSupply.getLots().isEmpty()) {
             newMedication.setLots(medicalSupply.getLots());

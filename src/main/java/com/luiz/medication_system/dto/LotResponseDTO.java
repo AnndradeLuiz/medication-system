@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public record LotResponseDTO(
-        String laboratory,
         String lotCode,
         LocalDate expirationDate,
         Integer initialQuantity,
@@ -14,7 +13,6 @@ public record LotResponseDTO(
 ) {
     public LotResponseDTO(Lot lot) {
         this(
-                lot.getLaboratory(),
                 lot.getLotCode(),
                 lot.getExpirationDate(),
                 lot.getInitialQuantity(),

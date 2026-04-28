@@ -24,14 +24,13 @@ public class Medication implements Serializable {
     private AdministrationRouteEnum administrationRoute;
 
     private ProgramCategoryEnum programCategoryEnum;
-    private String sigtapCode;
 
     private List<Lot> lots = new ArrayList<>();
 
     public Medication() {
     }
 
-    public Medication(String id, String name, String activeIngredient, String concentration, PharmaceuticalFormEnum pharmaceuticalForm, AdministrationRouteEnum administrationRoute, ProgramCategoryEnum programCategoryEnum, String sigtapCode) {
+    public Medication(String id, String name, String activeIngredient, String concentration, PharmaceuticalFormEnum pharmaceuticalForm, AdministrationRouteEnum administrationRoute, ProgramCategoryEnum programCategoryEnum) {
         this.id = id;
         this.name = name;
         this.activeIngredient = activeIngredient;
@@ -39,7 +38,6 @@ public class Medication implements Serializable {
         PharmaceuticalForm = pharmaceuticalForm;
         this.administrationRoute = administrationRoute;
         this.programCategoryEnum = programCategoryEnum;
-        this.sigtapCode = sigtapCode;
     }
 
     public String getId() {
@@ -96,14 +94,6 @@ public class Medication implements Serializable {
 
     public void setProgramCategory(ProgramCategoryEnum programCategoryEnum) {
         this.programCategoryEnum = programCategoryEnum;
-    }
-
-    public String getSigtapCode() {
-        return sigtapCode;
-    }
-
-    public void setSigtapCode(String sigtapCode) {
-        this.sigtapCode = sigtapCode;
     }
 
     public List<Lot> getLots() {

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DispensingOfMedicinesService {
@@ -31,9 +30,10 @@ public class DispensingOfMedicinesService {
         return repository.findAll();
     }
 
+    // CORREÇÃO AQUI: Estava buscando no patientService, alterado para o próprio repository
     public DispensingOfMedicines findById(String id) {
-        Optional<DispensingOfMedicines> entity = repository.findById(id);
-        return entity.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+        return repository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Registro de dispensação não encontrado"));
     }
 
     public DispensingOfMedicines insert(DispensingOfMedicines entity) {
@@ -81,8 +81,25 @@ public class DispensingOfMedicinesService {
                 targetPatient,
                 parties
         );
+
         for (var itemDto : entityDto.items()) {
             Medication med = medicationService.findById(itemDto.medicationId());
+
+            // ======================================================================
+            // NOVA REGRA DE NEGÓCIO: TRAVA DE PACIENTE EXTERNO (OUTRA UBS)
+            // ======================================================================
+            if (Boolean.TRUE.equals(patient.getExternal())) {
+                // String.valueOf previne erros independente de como está nomeado o seu Enum ou String
+                if (!String.valueOf(med.getProgramCategory()).equals("FARMACIA_BASICA")) {
+                    throw new IllegalArgumentException(
+                            "Bloqueio de Segurança: O paciente " + patient.getName() +
+                                    " é de outra UBS e só tem permissão para retirar medicamentos da FARMÁCIA BÁSICA. " +
+                                    "O item '" + med.getName() + "' pertence à categoria " + med.getProgramCategory() + "."
+                    );
+                }
+            }
+            // ======================================================================
+
             int amountNeeded = itemDto.quantity();
 
             if (med.getTotalStock() < amountNeeded) {
@@ -98,6 +115,7 @@ public class DispensingOfMedicinesService {
                 int amountToTakeFromThisLot = Math.min(lot.getCurrentQuantity(), amountNeeded);
                 lot.setCurrentQuantity(lot.getCurrentQuantity() - amountToTakeFromThisLot);
                 amountNeeded -= amountToTakeFromThisLot;
+
                 MedicationItem receiptItem = new MedicationItem(
                         med.getId(),
                         med.getName(),

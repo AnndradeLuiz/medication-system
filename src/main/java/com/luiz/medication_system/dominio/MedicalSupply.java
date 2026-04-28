@@ -15,17 +15,15 @@ public class MedicalSupply implements Serializable {
     private String id;
     private String name;
     private String observation;
-    private String sigtapCode;
     private List<Lot> lots = new ArrayList<>();
 
     public MedicalSupply() {
     }
 
-    public MedicalSupply(String id, String name, String observation, String sigtapCode) {
+    public MedicalSupply(String id, String name, String observation) {
         this.id = id;
         this.name = name;
         this.observation = observation;
-        this.sigtapCode = sigtapCode;
     }
 
     public String getId() {
@@ -58,14 +56,6 @@ public class MedicalSupply implements Serializable {
 
     public void setLots(List<Lot> lots) {
         this.lots = lots;
-    }
-
-    public String getSigtapCode() {
-        return sigtapCode;
-    }
-
-    public void setSigtapCode(String sigtapCode) {
-        this.sigtapCode = sigtapCode;
     }
 
     public Integer getTotalStock() {
