@@ -8,7 +8,7 @@ import java.util.Objects;
 public class MedicationItem {
 
     private String medicationId;
-    private String medicationName;
+    private String activeIngredient;
     private String concentration;
     private PharmaceuticalFormEnum PharmaceuticalForm;
     private ProgramCategoryEnum programCategoryEnum;
@@ -18,9 +18,9 @@ public class MedicationItem {
     public MedicationItem() {
     }
 
-    public MedicationItem(String medicationId, String medicationName, String concentration, PharmaceuticalFormEnum pharmaceuticalForm, ProgramCategoryEnum programCategoryEnum, String lotCode, Integer quantity) {
+    public MedicationItem(String medicationId, String activeIngredient, String concentration, PharmaceuticalFormEnum pharmaceuticalForm, ProgramCategoryEnum programCategoryEnum, String lotCode, Integer quantity) {
         this.medicationId = medicationId;
-        this.medicationName = medicationName;
+        this.activeIngredient = activeIngredient;
         this.concentration = concentration;
         PharmaceuticalForm = pharmaceuticalForm;
         this.programCategoryEnum = programCategoryEnum;
@@ -36,12 +36,12 @@ public class MedicationItem {
         this.medicationId = medicationId;
     }
 
-    public String getMedicationName() {
-        return medicationName;
+    public String getActiveIngredient() {
+        return activeIngredient;
     }
 
-    public void setMedicationName(String medicationName) {
-        this.medicationName = medicationName;
+    public void setActiveIngredient(String activeIngredient) {
+        this.activeIngredient = activeIngredient;
     }
 
     public String getConcentration() {
@@ -60,11 +60,11 @@ public class MedicationItem {
         PharmaceuticalForm = pharmaceuticalForm;
     }
 
-    public ProgramCategoryEnum getProgramCategory() {
+    public ProgramCategoryEnum getProgramCategoryEnum() {
         return programCategoryEnum;
     }
 
-    public void setProgramCategory(ProgramCategoryEnum programCategoryEnum) {
+    public void setProgramCategoryEnum(ProgramCategoryEnum programCategoryEnum) {
         this.programCategoryEnum = programCategoryEnum;
     }
 

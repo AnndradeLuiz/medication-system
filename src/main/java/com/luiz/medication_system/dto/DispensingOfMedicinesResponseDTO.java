@@ -10,7 +10,7 @@ public record DispensingOfMedicinesResponseDTO(
         Instant moment,
         ResponsibleEmployeeResponseDTO employee,
         TargetPatientResponseDTO targetPatient,
-        ThirdPartiesResponseDTO thirdPerson,
+        ThirdPersonResponseDTO thirdPerson,
         List<DispensationItemResponseDTO> items
 ) {
     public DispensingOfMedicinesResponseDTO(DispensingOfMedicines entity) {
@@ -19,7 +19,7 @@ public record DispensingOfMedicinesResponseDTO(
                 entity.getMoment(),
                 new ResponsibleEmployeeResponseDTO(entity.getEmployee()),
                 new TargetPatientResponseDTO(entity.getTargetPatient()),
-                entity.getThirdPerson() != null ?  new ThirdPartiesResponseDTO(
+                entity.getThirdPerson() != null ?  new ThirdPersonResponseDTO(
                         entity.getThirdPerson().getName(),
                         entity.getThirdPerson().getDocument(),
                         entity.getThirdPerson().getObservation()

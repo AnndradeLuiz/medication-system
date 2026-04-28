@@ -84,26 +84,22 @@ public class DispensingOfMedicinesService {
 
         for (var itemDto : entityDto.items()) {
             Medication med = medicationService.findById(itemDto.medicationId());
-
-            // ======================================================================
-            // NOVA REGRA DE NEGÓCIO: TRAVA DE PACIENTE EXTERNO (OUTRA UBS)
-            // ======================================================================
             if (Boolean.TRUE.equals(patient.getExternal())) {
-                // String.valueOf previne erros independente de como está nomeado o seu Enum ou String
                 if (!String.valueOf(med.getProgramCategory()).equals("FARMACIA_BASICA")) {
                     throw new IllegalArgumentException(
                             "Bloqueio de Segurança: O paciente " + patient.getName() +
                                     " é de outra UBS e só tem permissão para retirar medicamentos da FARMÁCIA BÁSICA. " +
-                                    "O item '" + med.getName() + "' pertence à categoria " + med.getProgramCategory() + "."
+                                    "O item '" + med.getActiveIngredient() +" (" + med.getConcentration() + ")" +
+                                    "' pertence à categoria " + med.getProgramCategory() + "."
                     );
                 }
             }
-            // ======================================================================
 
             int amountNeeded = itemDto.quantity();
 
             if (med.getTotalStock() < amountNeeded) {
-                throw new IllegalArgumentException("Estoque insuficiente para o medicamento: " + med.getName());
+                throw new IllegalArgumentException("Estoque insuficiente para o medicamento: " +
+                        med.getActiveIngredient() +" (" + med.getConcentration() + ")");
             }
 
             med.getLots().sort(Comparator.comparing(Lot::getExpirationDate));
@@ -118,7 +114,7 @@ public class DispensingOfMedicinesService {
 
                 MedicationItem receiptItem = new MedicationItem(
                         med.getId(),
-                        med.getName(),
+                        med.getActiveIngredient(),
                         med.getConcentration(),
                         med.getPharmaceuticalForm(),
                         med.getProgramCategory(),

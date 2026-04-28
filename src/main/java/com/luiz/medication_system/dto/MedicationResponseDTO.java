@@ -9,7 +9,6 @@ import java.util.List;
 
 public record MedicationResponseDTO(
         String id,
-        String name,
         String activeIngredient,
         String concentration,
 
@@ -23,7 +22,7 @@ public record MedicationResponseDTO(
 ) {
     public MedicationResponseDTO(Medication medication) {
         this(
-                medication.getId(), medication.getName(), medication.getActiveIngredient(),
+                medication.getId(), medication.getActiveIngredient(),
                 medication.getConcentration(), medication.getPharmaceuticalForm(),
                 medication.getAdministrationRoute(), medication.getProgramCategory(),
                 medication.getTotalStock(), medication.getLots().stream().map(LotResponseDTO::new).toList()

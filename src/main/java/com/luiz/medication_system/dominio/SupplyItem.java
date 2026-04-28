@@ -3,17 +3,17 @@ package com.luiz.medication_system.dominio;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class MedicalSupplyItem implements Serializable {
+public class SupplyItem implements Serializable {
 
     private String medicalSupplyId;
     private String name;
     private String lotCode;
     private Integer quantity;
 
-    public MedicalSupplyItem() {
+    public SupplyItem() {
     }
 
-    public MedicalSupplyItem(String medicalSupplyId, String name, String lotCode, Integer quantity) {
+    public SupplyItem(String medicalSupplyId, String name, String lotCode, Integer quantity) {
         this.medicalSupplyId = medicalSupplyId;
         this.name = name;
         this.lotCode = lotCode;
@@ -54,7 +54,7 @@ public class MedicalSupplyItem implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof MedicalSupplyItem that)) return false;
+        if (!(o instanceof SupplyItem that)) return false;
         return Objects.equals(getMedicalSupplyId(), that.getMedicalSupplyId()) && Objects.equals(getLotCode(), that.getLotCode());
     }
 

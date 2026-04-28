@@ -1,17 +1,14 @@
 package com.luiz.medication_system.services;
 
 import com.luiz.medication_system.dominio.Lot;
-import com.luiz.medication_system.dominio.MedicalSupply;
+import com.luiz.medication_system.dominio.Supply;
 import com.luiz.medication_system.dto.LotRequestDTO;
-import com.luiz.medication_system.dto.MedicalSupplyRequestDTO;
-import com.luiz.medication_system.dto.MedicalSupplyResponseDTO;
+import com.luiz.medication_system.dto.SupplyRequestDTO;
 import com.luiz.medication_system.repository.SupplyRepository;
 import com.luiz.medication_system.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,17 +21,18 @@ public class SupplyService {
         this.repository = repository;
     }
 
-    public List<MedicalSupply> findAll() {
+    public List<Supply> findAll() {
         return repository.findAll();
     }
 
-    public MedicalSupply findById(String id) {
-        Optional<MedicalSupply> medicalSupply = repository.findById(id);
+    public Supply findById(String id) {
+        Optional<Supply> medicalSupply = repository.findById(id);
         return medicalSupply.orElseThrow(() -> new ObjectNotFoundException("Insumos médico não encontrado"));
     }
 
-    public MedicalSupply insert(MedicalSupply medicalSupply) {
-        return repository.insert(medicalSupply);
+    public Supply insert(Supply supply) {
+        validateUniqueness(supply);
+        return repository.insert(supply);
     }
 
     public void deleteById(String id) {
@@ -42,15 +40,14 @@ public class SupplyService {
         repository.deleteById(id);
     }
 
-    public void update(MedicalSupply medicalSupply) {
-        MedicalSupply newMedicalSupply = findById(medicalSupply.getId());
-        updateData(newMedicalSupply, medicalSupply);
-        repository.save(newMedicalSupply);
+    public void update(Supply supply) {
+        Supply newSupply = findById(supply.getId());
+        updateData(newSupply, supply);
+        repository.save(newSupply);
     }
 
     public void addLots(String id, List<LotRequestDTO> lotsDto) {
-        // 1. Busca o insumo pelo ID
-        MedicalSupply supply = repository.findById(id)
+        Supply supply = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Insumo não encontrado. ID: " + id));
         for (LotRequestDTO dto : lotsDto) {
             Lot newLot = new Lot();
@@ -64,14 +61,27 @@ public class SupplyService {
         repository.save(supply);
     }
 
-    public MedicalSupply fromDto(MedicalSupplyRequestDTO medicalDto) {
-        MedicalSupply medicalSupply =  new MedicalSupply(
+    public void validateUniqueness(Supply supply) {
+        Optional<Supply> existing = repository.findByNameAndObservation(
+                supply.getName(),
+                supply.getObservation()
+        );
+        if (existing.isPresent() && !existing.get().getId().equals(supply.getId())) {
+            throw new IllegalArgumentException(
+                    "Erro: Já existe um insumo cadastrado com este nome ("
+                            + supply.getName() + ") e observação (" + supply.getObservation() +")."
+            );
+        }
+    }
+
+    public Supply fromDto(SupplyRequestDTO medicalDto) {
+        Supply supply =  new Supply(
                 null,
                 medicalDto.name(),
                 medicalDto.observation()
         );
         if (medicalDto.lots() != null) {
-            LocalDate today = LocalDate.now();
+            Instant today = Instant.now();
 
             List<Lot> lotList = medicalDto.lots().stream()
                     .map(l -> {
@@ -85,20 +95,20 @@ public class SupplyService {
                     })
                     .toList();
 
-            medicalSupply.getLots().addAll(lotList);
+            supply.getLots().addAll(lotList);
         }
-        return medicalSupply;
+        return supply;
     }
 
-    private void updateData(MedicalSupply newMedication, MedicalSupply medicalSupply) {
-        if (medicalSupply.getName() != null) {
-            newMedication.setName(medicalSupply.getName());
+    private void updateData(Supply newMedication, Supply supply) {
+        if (supply.getName() != null) {
+            newMedication.setName(supply.getName());
         }
-        if (medicalSupply.getObservation() != null) {
-            newMedication.setObservation(medicalSupply.getObservation());
+        if (supply.getObservation() != null) {
+            newMedication.setObservation(supply.getObservation());
         }
-        if (medicalSupply.getLots() != null && !medicalSupply.getLots().isEmpty()) {
-            newMedication.setLots(medicalSupply.getLots());
+        if (supply.getLots() != null && !supply.getLots().isEmpty()) {
+            newMedication.setLots(supply.getLots());
         }
     }
 

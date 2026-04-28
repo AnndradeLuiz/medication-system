@@ -63,7 +63,7 @@ public class DispensingOfSupplyService {
                 entityDto.observation()
         );
         for (var supplyItem : entityDto.supplies()) {
-            MedicalSupply medicalSupply = supplyService.findById(supplyItem.medicalSupplyId());
+            Supply medicalSupply = supplyService.findById(supplyItem.medicalSupplyId());
             int amountNeeded = supplyItem.quantity();
 
             if (medicalSupply.getTotalStock() < amountNeeded) {
@@ -79,7 +79,7 @@ public class DispensingOfSupplyService {
                 int amountToTakeFromThisLot = Math.min(lot.getCurrentQuantity(), amountNeeded);
                 lot.setCurrentQuantity(lot.getCurrentQuantity() - amountToTakeFromThisLot);
                 amountNeeded -= amountToTakeFromThisLot;
-                MedicalSupplyItem receiptItem = new MedicalSupplyItem(
+                SupplyItem receiptItem = new SupplyItem(
                         medicalSupply.getId(),
                         medicalSupply.getName(),
                         lot.getLotCode(),

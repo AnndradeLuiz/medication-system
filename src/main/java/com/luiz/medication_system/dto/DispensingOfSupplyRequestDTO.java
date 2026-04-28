@@ -5,6 +5,6 @@ import java.util.List;
 public record DispensingOfSupplyRequestDTO(
         String employeeId,
         String observation,
-        List<MedicalSupplyItemRequestDTO> supplies
+        List<SupplyItemRequestDTO> supplies
 ) {
 }

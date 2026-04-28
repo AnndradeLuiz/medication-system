@@ -1,6 +1,6 @@
 package com.luiz.medication_system.dto;
 
-public record MedicalSupplyItemRequestDTO(
+public record SupplyItemRequestDTO(
         String medicalSupplyId,
         Integer quantity
 ) {

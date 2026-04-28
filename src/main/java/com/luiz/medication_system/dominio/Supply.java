@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Document(collection = "medical-supply")
-public class MedicalSupply implements Serializable {
+public class Supply implements Serializable {
 
     @Id
     private String id;
@@ -17,10 +17,10 @@ public class MedicalSupply implements Serializable {
     private String observation;
     private List<Lot> lots = new ArrayList<>();
 
-    public MedicalSupply() {
+    public Supply() {
     }
 
-    public MedicalSupply(String id, String name, String observation) {
+    public Supply(String id, String name, String observation) {
         this.id = id;
         this.name = name;
         this.observation = observation;
@@ -69,7 +69,7 @@ public class MedicalSupply implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof MedicalSupply that)) return false;
+        if (!(o instanceof Supply that)) return false;
         return Objects.equals(getId(), that.getId());
     }
 

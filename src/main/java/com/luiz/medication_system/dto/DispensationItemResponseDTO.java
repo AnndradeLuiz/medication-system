@@ -16,10 +16,10 @@ public record DispensationItemResponseDTO(
     public DispensationItemResponseDTO(MedicationItem entity) {
         this(
                 entity.getMedicationId(),
-                entity.getMedicationName(),
+                entity.getActiveIngredient(),
                 entity.getConcentration(),
                 entity.getPharmaceuticalForm(),
-                entity.getProgramCategory(),
+                entity.getProgramCategoryEnum(),
                 entity.getLotCode(),
                 entity.getQuantity()
         );

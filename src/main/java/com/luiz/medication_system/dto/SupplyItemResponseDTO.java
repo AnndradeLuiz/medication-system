@@ -1,14 +1,14 @@
 package com.luiz.medication_system.dto;
 
-import com.luiz.medication_system.dominio.MedicalSupplyItem;
+import com.luiz.medication_system.dominio.SupplyItem;
 
-public record MedicalSupplyItemResponseDTO(
+public record SupplyItemResponseDTO(
         String medicalSupplyId,
         String name,
         String lotCode,
         Integer quantity
 ) {
-    public MedicalSupplyItemResponseDTO(MedicalSupplyItem supply) {
+    public SupplyItemResponseDTO(SupplyItem supply) {
         this(
                 supply.getMedicalSupplyId(),
                 supply.getName(),

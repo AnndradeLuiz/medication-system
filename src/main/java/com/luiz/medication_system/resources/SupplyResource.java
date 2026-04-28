@@ -1,10 +1,10 @@
 package com.luiz.medication_system.resources;
 
-import com.luiz.medication_system.dominio.MedicalSupply;
+import com.luiz.medication_system.dominio.Supply;
 import com.luiz.medication_system.dto.LotRequestDTO;
 import com.luiz.medication_system.dto.LotResponseDTO;
-import com.luiz.medication_system.dto.MedicalSupplyRequestDTO;
-import com.luiz.medication_system.dto.MedicalSupplyResponseDTO;
+import com.luiz.medication_system.dto.SupplyRequestDTO;
+import com.luiz.medication_system.dto.SupplyResponseDTO;
 import com.luiz.medication_system.services.SupplyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,26 +24,26 @@ public class SupplyResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<MedicalSupplyResponseDTO>> findAll() {
-        List<MedicalSupply> list = service.findAll();
-        List<MedicalSupplyResponseDTO> dtoList = list.stream().map(MedicalSupplyResponseDTO::new).toList();
+    public ResponseEntity<List<SupplyResponseDTO>> findAll() {
+        List<Supply> list = service.findAll();
+        List<SupplyResponseDTO> dtoList = list.stream().map(SupplyResponseDTO::new).toList();
         return ResponseEntity.ok().body(dtoList);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<MedicalSupplyResponseDTO> findById(@PathVariable String id) {
-        MedicalSupply medicalSupply = service.findById(id);
-        return ResponseEntity.ok().body(new MedicalSupplyResponseDTO(medicalSupply));
+    public ResponseEntity<SupplyResponseDTO> findById(@PathVariable String id) {
+        Supply supply = service.findById(id);
+        return ResponseEntity.ok().body(new SupplyResponseDTO(supply));
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@RequestBody MedicalSupplyRequestDTO medicalDto) {
-        MedicalSupply medicalSupply = service.fromDto(medicalDto);
-        medicalSupply = service.insert(medicalSupply);
+    public ResponseEntity<Void> insert(@RequestBody SupplyRequestDTO medicalDto) {
+        Supply supply = service.fromDto(medicalDto);
+        supply = service.insert(supply);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(medicalSupply.getId())
+                .buildAndExpand(supply.getId())
                 .toUri();
         return ResponseEntity.created(uri).build();
     }
@@ -55,17 +55,17 @@ public class SupplyResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody MedicalSupplyRequestDTO medicalDto, @PathVariable String id) {
-        MedicalSupply medicalSupply = service.fromDto(medicalDto);
-        medicalSupply.setId(id);
-        service.update(medicalSupply);
+    public ResponseEntity<Void> update(@RequestBody SupplyRequestDTO medicalDto, @PathVariable String id) {
+        Supply supply = service.fromDto(medicalDto);
+        supply.setId(id);
+        service.update(supply);
         return ResponseEntity.noContent().build();
     }
     
     @RequestMapping(value = "/{id}/lots", method = RequestMethod.GET)
     public ResponseEntity<List<LotResponseDTO>> findProgram(@PathVariable String id) {
-        MedicalSupply medicalSupply = service.findById(id);
-        List<LotResponseDTO> dtoList = medicalSupply.getLots().stream()
+        Supply supply = service.findById(id);
+        List<LotResponseDTO> dtoList = supply.getLots().stream()
                 .map(LotResponseDTO::new)
                 .toList();
         return ResponseEntity.ok().body(dtoList);

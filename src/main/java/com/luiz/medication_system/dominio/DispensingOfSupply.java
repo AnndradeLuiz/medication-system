@@ -17,7 +17,7 @@ public class DispensingOfSupply implements Serializable {
     private Instant moment;
     private ResponsibleEmployee employee;
     private String observation;
-    private List<MedicalSupplyItem> supplies = new ArrayList<>();
+    private List<SupplyItem> supplies = new ArrayList<>();
 
     public DispensingOfSupply() {
     }
@@ -61,11 +61,11 @@ public class DispensingOfSupply implements Serializable {
         this.observation = observation;
     }
 
-    public List<MedicalSupplyItem> getSupplies() {
+    public List<SupplyItem> getSupplies() {
         return supplies;
     }
 
-    public void setSupplies(List<MedicalSupplyItem> supplies) {
+    public void setSupplies(List<SupplyItem> supplies) {
         this.supplies = supplies;
     }
 

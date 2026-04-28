@@ -1,9 +1,11 @@
 package com.luiz.medication_system.dominio;
 
+import com.luiz.medication_system.dominio.enums.ProgramCategoryEnum;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -18,16 +20,16 @@ public class Patient implements Serializable {
     private String name;
     private String cpf;
     private String cns;
-    private LocalDate birthDate;
+    private Instant birthDate;
     private Boolean status;
     private Boolean external;
     private List<String> phones = new ArrayList<>();
-    private List<InclusionProgram> programs = new ArrayList<>();
+    private List<ProgramCategoryEnum> programs = new ArrayList<>();
 
     public Patient() {
     }
 
-    public Patient(String id, String name, String cpf, String cns, LocalDate birthDate, Boolean status, Boolean external) {
+    public Patient(String id, String name, String cpf, String cns, Instant birthDate, Boolean status, Boolean external) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -69,11 +71,11 @@ public class Patient implements Serializable {
         this.cns = cns;
     }
 
-    public LocalDate getBirthDate() {
+    public Instant getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(Instant birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -81,8 +83,9 @@ public class Patient implements Serializable {
         if (getBirthDate() == null) {
             return null;
         }
+        LocalDate dataNascimento = getBirthDate().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
         LocalDate hoje = LocalDate.now();
-        return Period.between(getBirthDate(), hoje).getYears();
+        return Period.between(dataNascimento, hoje).getYears();
     }
 
     public Boolean getStatus() {
@@ -109,11 +112,11 @@ public class Patient implements Serializable {
         this.phones = phones;
     }
 
-    public List<InclusionProgram> getPrograms() {
+    public List<ProgramCategoryEnum> getPrograms() {
         return programs;
     }
 
-    public void setPrograms(List<InclusionProgram> programs) {
+    public void setPrograms(List<ProgramCategoryEnum> programs) {
         this.programs = programs;
     }
 

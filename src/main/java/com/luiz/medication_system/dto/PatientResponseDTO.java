@@ -1,8 +1,9 @@
 package com.luiz.medication_system.dto;
 
 import com.luiz.medication_system.dominio.Patient;
+import com.luiz.medication_system.dominio.enums.ProgramCategoryEnum;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.List;
 
 public record PatientResponseDTO(
@@ -10,12 +11,12 @@ public record PatientResponseDTO(
         String name,
         String cpf,
         String cns,
-        LocalDate birthDate,
+        Instant birthDate,
         Integer age,
         Boolean status,
         Boolean external,
         List<String> phones,
-        List<InclusionProgramResponseDTO> programs
+        List<ProgramCategoryEnum> programs
 ) {
     public PatientResponseDTO(Patient patient) {
         this(
@@ -29,7 +30,7 @@ public record PatientResponseDTO(
                 patient.getExternal(),
                 patient.getPhones(),
                 patient.getPrograms() != null ?
-                        patient.getPrograms().stream().map(InclusionProgramResponseDTO::new).toList() : List.of()
+                        patient.getPrograms() : List.of()
         );
     }
 }

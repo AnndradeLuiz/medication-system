@@ -5,7 +5,7 @@ import java.util.List;
 public record DispensingOfMedicinesRequestDTO(
         String employeeId,
         String patientId,
-        ThirdPartiesRequestDTO thirdPerson,
+        ThirdPersonRequestDTO thirdPerson,
         List<DispensationItemRequestDTO> items
 ) {
 

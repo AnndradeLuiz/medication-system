@@ -1,6 +1,6 @@
 package com.luiz.medication_system.dto;
 
-public record ThirdPartiesRequestDTO(
+public record ThirdPersonRequestDTO(
         String name,
         String document,
         String observation

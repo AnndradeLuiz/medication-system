@@ -27,10 +27,11 @@ public class EmployeeService {
 
     public Employee findById(String id) {
         Optional<Employee> employee = repository.findById(id);
-        return employee.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+        return employee.orElseThrow(() -> new ObjectNotFoundException("Funcionário não encontrado."));
     }
 
     public Employee insert(Employee employee) {
+        validateUniqueness(employee);
         return repository.insert(employee);
     }
 
@@ -40,9 +41,20 @@ public class EmployeeService {
     }
 
     public void update(Employee employee) {
+        validateUniqueness(employee);
         Employee newEmployee = findById(employee.getId());
         updateData(newEmployee, employee);
         repository.save(newEmployee);
+    }
+
+    private void validateUniqueness(Employee employee) {
+        if (employee.getCpf() != null && !employee.getCpf().isBlank()) {
+            repository.findByCpf(employee.getCpf()).ifPresent(existing -> {
+                if (employee.getId() == null || !existing.getId().equals(employee.getId())) {
+                    throw new IllegalArgumentException("O CPF informado já está cadastrado para outro funcionário.");
+                }
+            });
+        }
     }
 
     private String encryptPassword(String password) {

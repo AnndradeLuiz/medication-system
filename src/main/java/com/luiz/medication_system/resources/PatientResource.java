@@ -1,8 +1,7 @@
 package com.luiz.medication_system.resources;
 
 import com.luiz.medication_system.dominio.Patient;
-import com.luiz.medication_system.dto.InclusionProgramRequestDTO;
-import com.luiz.medication_system.dto.InclusionProgramResponseDTO;
+import com.luiz.medication_system.dominio.enums.ProgramCategoryEnum;
 import com.luiz.medication_system.dto.PatientResponseDTO;
 import com.luiz.medication_system.dto.PatientRequestDTO;
 import com.luiz.medication_system.services.PatientService;
@@ -68,11 +67,9 @@ public class PatientResource {
     }
     
     @RequestMapping(value = "/{id}/programs", method = RequestMethod.GET)
-    public ResponseEntity<List<InclusionProgramResponseDTO>> findProgram(@PathVariable String id) {
+    public ResponseEntity<List<ProgramCategoryEnum>> findProgram(@PathVariable String id) {
         Patient patient = service.findById(id);
-        List<InclusionProgramResponseDTO> dtoList = patient.getPrograms().stream()
-                .map(InclusionProgramResponseDTO::new)
-                .toList();
+        List<ProgramCategoryEnum> dtoList = patient.getPrograms();
         return ResponseEntity.ok().body(dtoList);
     }
 

@@ -10,7 +10,7 @@ public record DispensingOfSupplyResponseDTO(
         Instant moment,
         ResponsibleEmployeeResponseDTO employeeId,
         String observation,
-        List<MedicalSupplyItemResponseDTO> supplies
+        List<SupplyItemResponseDTO> supplies
 ) {
     public DispensingOfSupplyResponseDTO(DispensingOfSupply supply) {
         this(
@@ -18,7 +18,7 @@ public record DispensingOfSupplyResponseDTO(
                 supply.getMoment(),
                 new ResponsibleEmployeeResponseDTO(supply.getEmployee()),
                 supply.getObservation(),
-                supply.getSupplies().stream().map(MedicalSupplyItemResponseDTO::new).toList()
+                supply.getSupplies().stream().map(SupplyItemResponseDTO::new).toList()
         );
     }
 }

@@ -10,6 +10,8 @@ import java.util.Optional;
 @RestController
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
 
+    Optional<Employee> findByCpf(String cpf);
+
     @Query("{$or: [ {'cpf':  ?0}, {'registration':  ?0} ] }")
     Optional<Employee> findByCpfOrRegistration(String login);
 

@@ -1,9 +1,9 @@
 package com.luiz.medication_system.dto;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 public record LotRequestDTO(
-        String lotCode, LocalDate expirationDate, Integer quantity
+        String lotCode, Instant expirationDate, Integer quantity
         ) {
 
 }

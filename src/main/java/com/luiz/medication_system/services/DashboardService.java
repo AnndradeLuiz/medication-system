@@ -9,6 +9,8 @@ import com.luiz.medication_system.repository.MedicationRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -23,21 +25,17 @@ public class DashboardService {
     }
 
     public DashboardDTO getMetrics() {
-        LocalDateTime startOfDayLocal = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
-        LocalDateTime endOfDayLocal = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
-
         ZoneId zone = ZoneId.systemDefault();
-        Instant startOfDay = startOfDayLocal.atZone(zone).toInstant();
-        Instant endOfDay = endOfDayLocal.atZone(zone).toInstant();
+        LocalDate hoje = LocalDate.now(zone);
 
-        // 1. Busca no Banco as saídas de hoje
+        Instant startOfDay = hoje.atStartOfDay(zone).toInstant();
+        Instant endOfDay = hoje.atTime(LocalTime.MAX).atZone(zone).toInstant();
+
         Long todayCount = dispensingRepository.countByMomentBetween(startOfDay, endOfDay);
         String topItem = dispensingRepository.findMostDispensedToday(startOfDay, endOfDay);
 
-        // 2. Trazemos todos os medicamentos para o Java fazer as contas
         List<Medication> allMeds = medicationRepository.findAll();
 
-        // 3. Conta quantos medicamentos estão com estoque baixo (regra dos 50)
         Long lowStock = allMeds.stream()
                 .filter(med -> {
                     int total = med.getTotalStock() != null ? med.getTotalStock() : 0;
@@ -45,11 +43,11 @@ public class DashboardService {
                 })
                 .count();
 
-        // 4. Conta quantos lotes estão vencendo em até 30 dias
-        LocalDate limitDate = LocalDate.now().plusDays(30);
+        Instant limitDate = Instant.now().plus(30, ChronoUnit.DAYS);
+
         Long expiringCount = allMeds.stream()
-                .filter(med -> med.getLots() != null) // Pega apenas os que têm lotes
-                .flatMap(med -> med.getLots().stream()) // Despeja todos os lotes de todos os remédios numa "esteira" só
+                .filter(med -> med.getLots() != null)
+                .flatMap(med -> med.getLots().stream())
                 .filter(lot -> lot.getExpirationDate() != null && !lot.getExpirationDate().isAfter(limitDate))
                 .count();
 
@@ -57,37 +55,28 @@ public class DashboardService {
     }
 
     public List<LowStockAlertDTO> getLowStockAlerts() {
-        // 1. Como a conta é feita no Java, buscamos todos os medicamentos ativos
         List<Medication> allMeds = medicationRepository.findAll();
 
         return allMeds.stream()
-                // 2. FILTRO DE ESTOQUE BAIXO: Só deixa passar quem tem estoque menor que a regra
                 .filter(med -> {
                     int total = med.getTotalStock() != null ? med.getTotalStock() : 0;
-
-                    // REGRA PROVISÓRIA: Se você não tem minStock na classe, vamos assumir que
-                    // qualquer remédio com menos de 50 unidades está acabando.
-                    // O ideal no futuro é adicionar um "Integer minStock" na classe Medication!
                     int limiteMinimo = 50;
 
                     return total <= limiteMinimo;
                 })
-                // 3. MAP: Transforma os que passaram no filtro em linhas da tabela (DTO)
                 .map(med -> {
                     int total = med.getTotalStock() != null ? med.getTotalStock() : 0;
-                    int limiteMinimo = 50; // Usando o mesmo limite provisório
+                    int limiteMinimo = 50;
 
-                    // Lógica de Status: Se tiver menos da metade do mínimo, é Crítico
                     String status = "Atenção";
                     if (total <= (limiteMinimo / 2)) {
                         status = "Crítico";
                     }
 
-                    // Lógica de Validade: Procura o lote que vence primeiro
                     String validade = "Sem lote";
                     if (med.getLots() != null && !med.getLots().isEmpty()) {
                         Lot closestLot = med.getLots().stream()
-                                .min(java.util.Comparator.comparing(Lot::getExpirationDate))
+                                .min(Comparator.comparing(Lot::getExpirationDate))
                                 .orElse(null);
 
                         if (closestLot != null && closestLot.getExpirationDate() != null) {
@@ -96,14 +85,14 @@ public class DashboardService {
                     }
 
                     return new LowStockAlertDTO(
-                            med.getName(), // Adicione + " " + med.getDosage() se tiver dosagem
+                            med.getActiveIngredient(),
+                            med.getConcentration(),
                             total,
                             validade,
                             status
                     );
                 })
-                // 4. BÔNUS: Ordena a lista para mostrar os piores casos (Críticos) primeiro
-                .sorted(java.util.Comparator.comparing(LowStockAlertDTO::currentQuantity))
+                .sorted(Comparator.comparing(LowStockAlertDTO::currentQuantity))
                 .toList();
     }
 

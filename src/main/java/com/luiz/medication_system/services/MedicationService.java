@@ -8,7 +8,7 @@ import com.luiz.medication_system.repository.MedicationRepository;
 import com.luiz.medication_system.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +31,7 @@ public class MedicationService {
     }
 
     public Medication insert(Medication medication) {
+        validateUniqueness(medication);
         return repository.insert(medication);
     }
 
@@ -54,10 +55,22 @@ public class MedicationService {
         repository.save(medication);
     }
 
+    private void validateUniqueness(Medication med) {
+        Optional<Medication> existing = repository.findByActiveIngredientAndConcentration(
+                med.getActiveIngredient(),
+                med.getConcentration()
+        );
+        if (existing.isPresent() && !existing.get().getId().equals(med.getId())) {
+            throw new IllegalArgumentException(
+                    "Erro: Já existe um medicamento cadastrado com este princípio ativo ("
+                    + med.getActiveIngredient() + ") e concentração (" + med.getConcentration() +")."
+            );
+        }
+    }
+
     public Medication fromDto(MedicationRequestDTO medicationRequestDTO) {
         Medication medication =  new Medication(
                 null,
-                medicationRequestDTO.name(),
                 medicationRequestDTO.activeIngredient(),
                 medicationRequestDTO.concentration(),
                 medicationRequestDTO.pharmaceuticalForm(),
@@ -65,7 +78,7 @@ public class MedicationService {
                 medicationRequestDTO.programCategoryEnum()
         );
         if (medicationRequestDTO.lots() != null) {
-            LocalDate today = LocalDate.now();
+            Instant today = Instant.now();
 
             List<Lot> lotList = medicationRequestDTO.lots().stream()
                     .map(l -> {

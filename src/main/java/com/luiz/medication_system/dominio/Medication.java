@@ -4,6 +4,7 @@ import com.luiz.medication_system.dominio.enums.AdministrationRouteEnum;
 import com.luiz.medication_system.dominio.enums.PharmaceuticalFormEnum;
 import com.luiz.medication_system.dominio.enums.ProgramCategoryEnum;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
@@ -12,11 +13,11 @@ import java.util.List;
 import java.util.Objects;
 
 @Document(collection = "medication")
+@CompoundIndex(name = "med_unique_idx", def = "{'activeIngredient': 1, 'concentration': 1}", unique = true)
 public class Medication implements Serializable {
 
     @Id
     private String id;
-    private String name;
     private String activeIngredient;
     private String concentration;
 
@@ -30,9 +31,8 @@ public class Medication implements Serializable {
     public Medication() {
     }
 
-    public Medication(String id, String name, String activeIngredient, String concentration, PharmaceuticalFormEnum pharmaceuticalForm, AdministrationRouteEnum administrationRoute, ProgramCategoryEnum programCategoryEnum) {
+    public Medication(String id, String activeIngredient, String concentration, PharmaceuticalFormEnum pharmaceuticalForm, AdministrationRouteEnum administrationRoute, ProgramCategoryEnum programCategoryEnum) {
         this.id = id;
-        this.name = name;
         this.activeIngredient = activeIngredient;
         this.concentration = concentration;
         PharmaceuticalForm = pharmaceuticalForm;
@@ -46,14 +46,6 @@ public class Medication implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getActiveIngredient() {
