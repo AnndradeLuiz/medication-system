@@ -2,7 +2,7 @@ package com.luiz.medication_system.resources;
 
 import com.luiz.medication_system.dominio.Supply;
 import com.luiz.medication_system.dto.LotRequestDTO;
-import com.luiz.medication_system.dto.LotResponseDTO;
+import com.luiz.medication_system.dto.SupplyLotResponseDTO;
 import com.luiz.medication_system.dto.SupplyRequestDTO;
 import com.luiz.medication_system.dto.SupplyResponseDTO;
 import com.luiz.medication_system.services.SupplyService;
@@ -63,10 +63,10 @@ public class SupplyResource {
     }
     
     @RequestMapping(value = "/{id}/lots", method = RequestMethod.GET)
-    public ResponseEntity<List<LotResponseDTO>> findProgram(@PathVariable String id) {
+    public ResponseEntity<List<SupplyLotResponseDTO>> findProgram(@PathVariable String id) {
         Supply supply = service.findById(id);
-        List<LotResponseDTO> dtoList = supply.getLots().stream()
-                .map(LotResponseDTO::new)
+        List<SupplyLotResponseDTO> dtoList = supply.getLots().stream()
+                .map(SupplyLotResponseDTO::new)
                 .toList();
         return ResponseEntity.ok().body(dtoList);
     }

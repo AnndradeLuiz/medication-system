@@ -7,8 +7,10 @@ import com.luiz.medication_system.services.exceptions.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DispensingOfMedicinesService {
@@ -30,7 +32,6 @@ public class DispensingOfMedicinesService {
         return repository.findAll();
     }
 
-    // CORREÇÃO AQUI: Estava buscando no patientService, alterado para o próprio repository
     public DispensingOfMedicines findById(String id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Registro de dispensação não encontrado"));
@@ -126,6 +127,64 @@ public class DispensingOfMedicinesService {
             medicationService.update(med);
         }
         return dispensingOfMedicines;
+    }
+
+    public void updateDispensation(String id, DispensingOfMedicinesRequestDTO dto) {
+        DispensingOfMedicines dispensation = findById(id);
+
+        for (MedicationItem oldItem : dispensation.getMedications()) {
+            Medication med = medicationService.findById(oldItem.getMedicationId());
+
+            for (Lot lot : med.getLots()) {
+                if (lot.getLotCode().equals(oldItem.getLotCode())) {
+                    lot.setCurrentQuantity(lot.getCurrentQuantity() + oldItem.getQuantity());
+                    break;
+                }
+            }
+            medicationService.update(med);
+        }
+        dispensation.setMedications(new ArrayList<>());
+
+        for (var incomingItem : dto.items()) {
+            Medication med = medicationService.findById(incomingItem.medicationId());
+            int amountNeeded = incomingItem.quantity();
+
+            med.getLots().sort(Comparator.comparing(Lot::getExpirationDate));
+
+            for (Lot lot : med.getLots()) {
+                if (amountNeeded <= 0) break;
+                if (lot.getCurrentQuantity() <= 0) continue;
+
+                int amountToTake = Math.min(lot.getCurrentQuantity(), amountNeeded);
+                lot.setCurrentQuantity(lot.getCurrentQuantity() - amountToTake);
+                amountNeeded -= amountToTake;
+
+                Optional<MedicationItem> existingItem = dispensation.getMedications().stream()
+                        .filter(item -> item.getMedicationId().equals(med.getId()) && item.getLotCode().equals(lot.getLotCode()))
+                        .findFirst();
+
+                if (existingItem.isPresent()) {
+                    existingItem.get().setQuantity(existingItem.get().getQuantity() + amountToTake);
+                } else {
+                    MedicationItem newItem = new MedicationItem(
+                            med.getId(),
+                            med.getActiveIngredient(),
+                            med.getConcentration(),
+                            med.getPharmaceuticalForm(),
+                            med.getProgramCategory(),
+                            lot.getLotCode(),
+                            amountToTake
+                    );
+                    dispensation.getMedications().add(newItem);
+                }
+            }
+
+            if (amountNeeded > 0) {
+                throw new IllegalArgumentException("Estoque insuficiente para o medicamento: " + med.getActiveIngredient());
+            }
+            medicationService.update(med);
+        }
+        repository.save(dispensation);
     }
 
     private void updateData(DispensingOfMedicines newEntity, DispensingOfMedicines entity) {

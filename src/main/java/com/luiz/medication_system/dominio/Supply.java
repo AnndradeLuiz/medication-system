@@ -15,7 +15,7 @@ public class Supply implements Serializable {
     private String id;
     private String name;
     private String observation;
-    private List<Lot> lots = new ArrayList<>();
+    private List<SupplyLot> lots = new ArrayList<>();
 
     public Supply() {
     }
@@ -50,11 +50,11 @@ public class Supply implements Serializable {
         this.observation = observation;
     }
 
-    public List<Lot> getLots() {
+    public List<SupplyLot> getLots() {
         return lots;
     }
 
-    public void setLots(List<Lot> lots) {
+    public void setLots(List<SupplyLot> lots) {
         this.lots = lots;
     }
 
@@ -62,8 +62,10 @@ public class Supply implements Serializable {
         if (this.lots == null || this.lots.isEmpty()) {
             return 0;
         }
+
         return this.lots.stream()
-                .mapToInt(Lot::getCurrentQuantity)
+                .filter(lot -> lot.getReceivedQuantity() != null)
+                .mapToInt(SupplyLot::getReceivedQuantity)
                 .sum();
     }
 

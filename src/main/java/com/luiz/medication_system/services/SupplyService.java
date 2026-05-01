@@ -1,7 +1,7 @@
 package com.luiz.medication_system.services;
 
-import com.luiz.medication_system.dominio.Lot;
 import com.luiz.medication_system.dominio.Supply;
+import com.luiz.medication_system.dominio.SupplyLot;
 import com.luiz.medication_system.dto.LotRequestDTO;
 import com.luiz.medication_system.dto.SupplyRequestDTO;
 import com.luiz.medication_system.repository.SupplyRepository;
@@ -50,12 +50,10 @@ public class SupplyService {
         Supply supply = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Insumo não encontrado. ID: " + id));
         for (LotRequestDTO dto : lotsDto) {
-            Lot newLot = new Lot();
+            SupplyLot newLot = new SupplyLot();
             newLot.setLotCode(dto.lotCode());
             newLot.setExpirationDate(dto.expirationDate());
-            newLot.setInitialQuantity(dto.quantity());
-            newLot.setCurrentQuantity(dto.quantity());
-
+            newLot.setReceivedQuantity(dto.quantity());
             supply.getLots().add(newLot);
         }
         repository.save(supply);
@@ -80,10 +78,12 @@ public class SupplyService {
                 medicalDto.name(),
                 medicalDto.observation()
         );
+
         if (medicalDto.lots() != null) {
             Instant today = Instant.now();
 
-            List<Lot> lotList = medicalDto.lots().stream()
+            // CORREÇÃO: Mapear para SupplyLot e não para Lot
+            List<SupplyLot> lotList = medicalDto.lots().stream()
                     .map(l -> {
                         if (l.expirationDate().isBefore(today)) {
                             throw new IllegalArgumentException("Erro de Segurança: Não é permitido cadastrar o lote '"
@@ -91,10 +91,9 @@ public class SupplyService {
                                     + "' com data de validade vencida!"
                             );
                         }
-                        return new Lot(l.lotCode(), l.expirationDate(), l.quantity());
+                        return new SupplyLot(l.lotCode(), l.expirationDate(), l.quantity());
                     })
                     .toList();
-
             supply.getLots().addAll(lotList);
         }
         return supply;

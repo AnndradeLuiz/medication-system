@@ -54,12 +54,9 @@ public class DispensingOfMedicinesResource {
         return ResponseEntity.noContent().build();
     }
 
-    // Acredito que está função será removida, pois não me faz sentido dar update no registro das saídas
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> update(@RequestBody DispensingOfMedicinesRequestDTO entityDto, @PathVariable String id) {
-        DispensingOfMedicines entity = service.fromDto(entityDto);
-        entity.setId(id);
-        service.update(entity);
+       service.updateDispensation(id, entityDto);
         return ResponseEntity.noContent().build();
     }
 
