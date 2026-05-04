@@ -1,5 +1,7 @@
 package com.luiz.medication_system.dominio;
 
+import com.luiz.medication_system.dominio.enums.Role;
+
 import java.util.Objects;
 
 public class ResponsibleEmployee {

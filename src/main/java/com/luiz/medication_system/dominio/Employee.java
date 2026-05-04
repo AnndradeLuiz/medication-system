@@ -1,6 +1,6 @@
 package com.luiz.medication_system.dominio;
 
-import jakarta.validation.constraints.NotBlank;
+import com.luiz.medication_system.dominio.enums.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,19 +16,19 @@ public class Employee implements Serializable {
     private String cpf;
     private String registration;
     private String password;
-    private String position;
+    private Role role;
     private Boolean status;
 
     public Employee() {
     }
 
-    public Employee(String id, String name, String cpf, String registration, String password, String position, Boolean status) {
+    public Employee(String id, String name, String cpf, String registration, String password, Role role, Boolean status) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
         this.registration = registration;
         this.password = password;
-        this.position = position;
+        this.role = role;
         this.status = status;
     }
 
@@ -72,12 +72,12 @@ public class Employee implements Serializable {
         this.password = password;
     }
 
-    public String getPosition() {
-        return position;
+    public Role getRole() {
+        return role;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Boolean getStatus() {

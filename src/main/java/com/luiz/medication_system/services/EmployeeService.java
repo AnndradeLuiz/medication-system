@@ -70,7 +70,7 @@ public class EmployeeService {
                 employeeRequestDTO.cpf(),
                 employeeRequestDTO.registration(),
                 password,
-                employeeRequestDTO.position(),
+                employeeRequestDTO.role(),
                 employeeRequestDTO.status()
         );
     }
@@ -82,11 +82,14 @@ public class EmployeeService {
         if (employee.getCpf() != null) {
             newEmployee.setCpf(employee.getCpf());
         }
+        if (employee.getPassword() != null && !employee.getPassword().isBlank()) {
+            newEmployee.setPassword(encryptPassword(employee.getPassword()));
+        }
         if (employee.getRegistration() != null) {
             newEmployee.setRegistration(employee.getRegistration());
         }
-        if (employee.getPosition() != null) {
-            newEmployee.setPosition(employee.getPosition());
+        if (employee.getRole() != null) {
+            newEmployee.setRole(employee.getRole());
         }
         if (employee.getStatus() != null) {
             newEmployee.setStatus(employee.getStatus());

@@ -26,7 +26,7 @@ public class AuthService {
         if (!passwordEncoder.matches(dto.password(), emp.getPassword())) {
             throw new IllegalArgumentException("Senha inválida.");
         }
-        return new LoginResponseDTO(emp.getId(), emp.getName());
+        return new LoginResponseDTO(emp.getId(), emp.getName(), emp.getRegistration(), emp.getRole());
     }
 
 }

@@ -82,7 +82,6 @@ public class SupplyService {
         if (medicalDto.lots() != null) {
             Instant today = Instant.now();
 
-            // CORREÇÃO: Mapear para SupplyLot e não para Lot
             List<SupplyLot> lotList = medicalDto.lots().stream()
                     .map(l -> {
                         if (l.expirationDate().isBefore(today)) {

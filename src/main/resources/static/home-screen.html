@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGDMI - Tela Inicial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-briefcase-medical logo-icon"></i>
+                <span class="logo-text">SGDMI</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="home-screen.html" class="active"><i class="fa-solid fa-home"></i> Tela Inicial</a></li>
+                    <li><a href="patient.html"><i class="fa-solid fa-user-friends"></i> Pacientes</a></li>
+                    <li><a href="dashboard.html"><i class="fa-solid fa-pills"></i> Medicamentos</a></li>
+                    <li><a href="insumos.html"><i class="fa-solid fa-box-open"></i> Insumos</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/login.html" class="logout-btn" onclick="localStorage.clear()">
+                    <i class="fa-solid fa-sign-out-alt"></i> Sair do Sistema
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="page-title">
+                    <h1>Painel Geral</h1>
+                    <p class="subtitle">Visão geral das operações e alertas do sistema</p>
+                </div>
+                <div class="user-profile">
+                    <div class="user-info-text">
+                        <span class="user-name" id="loggedUser">Usuário Logado</span>
+                        <span class="user-status">Online</span>
+                    </div>
+                    <div class="user-avatar">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+            </header>
+
+            <section class="home-content">
+
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-blue"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                        <div class="kpi-info">
+                            <h3>Em Alta (Hoje)</h3>
+                            <p id="metricTopItem"
+                                style="font-size: 1.4rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">
+                                -</p>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-green"><i class="fa-solid fa-hand-holding-medical"></i></div>
+                        <div class="kpi-info">
+                            <h3>Dispensações Hoje</h3>
+                            <p id="metricDispensations">-</p>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-orange"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="kpi-info">
+                            <h3>Estoque Baixo (Itens)</h3>
+                            <p id="metricLowStock">-</p>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-red"><i class="fa-solid fa-calendar-xmark"></i></div>
+                        <div class="kpi-info">
+                            <h3>Lotes Vencendo</h3>
+                            <p id="metricExpiring">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions-section card">
+                    <h3><i class="fa-solid fa-bolt"></i> Ações Rápidas</h3>
+                    <div class="quick-actions-grid">
+                        <button class="action-btn" onclick="window.location.href='dashboard.html#dispensacao'">
+                            <i class="fa-solid fa-pills"></i> Nova Dispensação
+                        </button>
+                        <button class="action-btn" onclick="window.location.href='patient.html#cadastro'">
+                            <i class="fa-solid fa-user-plus"></i> Cadastrar Paciente
+                        </button>
+                        <button class="action-btn" onclick="window.location.href='dashboard.html#entrada'">
+                            <i class="fa-solid fa-truck-medical"></i> Receber Lote
+                        </button>
+                    </div>
+                </div>
+
+                <section class="dashboard-content" style="padding: 20px;">
+
+                    <div class="card full-width-card"
+                        style="width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; padding: 20px; background: #fff;">
+                        <h3 style="color: #1f2937; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 20px;"></i>
+                            Alertas de Estoque Crítico (Medicamentos e Insumos)
+                        </h3>
+
+                        <table class="data-table" style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr
+                                    style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left;">
+                                    <th style="padding: 12px; width: 120px;">TIPO</th>
+                                    <th style="padding: 12px;">ITEM</th>
+                                    <th style="padding: 12px; text-align: center; width: 150px;">QTD ATUAL</th>
+                                    <th style="padding: 12px; text-align: center; width: 150px;">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody id="criticalStockBody">
+                                <tr>
+                                    <td colspan="4" style="text-align: center; padding: 20px; color: #6b7280;">
+                                        <i class="fa-solid fa-spinner fa-spin"></i> Carregando dados do estoque...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </section>
+    </div>
+    </section>
+    </main>
+    </div>
+
+    <script src="js/home.js"></script>
+</body>
+
+</html>

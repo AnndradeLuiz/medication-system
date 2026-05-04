@@ -5,6 +5,7 @@ import com.luiz.medication_system.dto.EmployeeResponseDTO;
 import com.luiz.medication_system.dto.EmployeeRequestDTO;
 import com.luiz.medication_system.services.EmployeeService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,7 +35,8 @@ public class EmployeeResource {
         return ResponseEntity.ok().body(new EmployeeResponseDTO(employee));
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PreAuthorize("hasAnyRole('ADM_TI', 'ENF_GERENTE')")
+    @PostMapping
     public ResponseEntity<Void> insert(@RequestBody EmployeeRequestDTO employeeDTO) {
         Employee employee = service.fromDto(employeeDTO);
         employee = service.insert(employee);

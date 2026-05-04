@@ -63,7 +63,7 @@ public class SupplyResource {
     }
     
     @RequestMapping(value = "/{id}/lots", method = RequestMethod.GET)
-    public ResponseEntity<List<SupplyLotResponseDTO>> findProgram(@PathVariable String id) {
+    public ResponseEntity<List<SupplyLotResponseDTO>> findLots(@PathVariable String id) {
         Supply supply = service.findById(id);
         List<SupplyLotResponseDTO> dtoList = supply.getLots().stream()
                 .map(SupplyLotResponseDTO::new)

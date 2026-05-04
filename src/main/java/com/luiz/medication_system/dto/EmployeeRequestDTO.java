@@ -1,5 +1,6 @@
 package com.luiz.medication_system.dto;
 
+import com.luiz.medication_system.dominio.enums.Role;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -13,7 +14,7 @@ public record EmployeeRequestDTO(
         @Indexed(unique = true)
         String registration,
         String password,
-        String position,
+        Role role,
         Boolean status
 ) {
 }
