@@ -7,14 +7,18 @@ public record LoginResponseDTO(
         String id,
         String name,
         String registration,
-        Role role
+        Role role,
+        Boolean status,
+        String token
 ) {
-    public LoginResponseDTO(Employee employee) {
+    public LoginResponseDTO(Employee employee, String token) {
         this(
                 employee.getId(),
                 employee.getName(),
                 employee.getRegistration(),
-                employee.getRole()
+                employee.getRole(),
+                employee.getStatus(),
+                token
         );
     }
 }
